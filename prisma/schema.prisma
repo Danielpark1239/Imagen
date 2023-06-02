@@ -2,8 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider = "prisma-client-js"
-    previewFeatures = ["jsonProtocol"]
+  provider = "prisma-client-js"
+  previewFeatures = ["jsonProtocol"]
 }
 
 datasource db {
@@ -15,8 +15,8 @@ datasource db {
 model Image {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
-    content String @db.VarChar(255)
+    prompt String @db.Text
     authorId String 
-
-    @@index([authorId])
+    url String @db.Text
+    @@index([authorId, createdAt(sort: Desc)])
 }
