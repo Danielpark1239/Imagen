@@ -135,7 +135,7 @@ const Generate: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Generate</title>
+        <title>Imagen</title>
       </Head>
       <main className="flex h-screen justify-center">
         <Navbar />

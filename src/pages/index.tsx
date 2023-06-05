@@ -6,7 +6,7 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Home</title>
+        <title>Imagen</title>
       </Head>
       <main className="flex h-screen justify-center">
         <Navbar />

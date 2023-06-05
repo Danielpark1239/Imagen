@@ -5,7 +5,7 @@ const HistoryPage: NextPage = () => {
   return (
     <>
       <Head>
-        <title>History</title>
+        <title>Imagen</title>
       </Head>
       <main className="flex h-screen justify-center">
         <div>Your history</div>
