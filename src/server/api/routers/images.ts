@@ -28,8 +28,18 @@ const filterUserForClient = (user: User) => {
 }
 
 export const imagesRouter = createTRPCRouter({
-
   getAll: publicProcedure.query(async ({ ctx }) => {
+    const images = await ctx.prisma.image.findMany({
+      take: 100,
+      orderBy: [
+        {createdAt: "desc"}
+      ]
+    })
+    return images
+  }),
+
+  // Should optimize to more easily get all of a user's images
+  getAllUser: publicProcedure.query(async ({ ctx }) => {
     const images = await ctx.prisma.image.findMany({
       take: 100,
       orderBy: [
