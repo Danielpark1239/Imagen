@@ -13,10 +13,10 @@ datasource db {
 }
 
 model Image {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    prompt String @db.Text
-    authorId String 
-    url String @db.Text
-    @@index([authorId, createdAt(sort: Desc)])
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  prompt String @db.Text
+  authorId String 
+  url String @db.Text
+  @@index([authorId, createdAt(sort: Desc)])
 }
