@@ -76,7 +76,7 @@ const CreateImageWizard = () => {
   )
 }
 
-type ImageWithUser = RouterOutputs["images"]["getAll"][number]
+type ImageWithUser = RouterOutputs["images"]["getAllUser"][number]
 const ImageView = (props: ImageWithUser) => {
   const { image, author } = props
   return (
@@ -111,7 +111,7 @@ const ImageView = (props: ImageWithUser) => {
 }
 
 const Feed = () => {
-  const { data, isLoading: postsLoading } = api.images.getAll.useQuery()
+  const { data, isLoading: postsLoading } = api.images.getAllUser.useQuery()
 
   if (postsLoading) return <LoadingPage />
 
@@ -128,7 +128,7 @@ const Feed = () => {
 
 const Generate: NextPage = () => {
   const { isLoaded: userLoaded, isSignedIn } = useUser()
-  api.images.getAll.useQuery() // Start fetching asap
+  api.images.getAllUser.useQuery() // Start fetching asap
 
   if (!userLoaded) return <div />
 
