@@ -8,7 +8,7 @@ const Navbar: React.FC = () => {
   const [open, setOpen] = useState(false)
   const { isSignedIn } = useUser()
   return (
-    <nav className="fixed top-0 z-10 w-full px-2 text-slate-900 shadow-lg shadow-gray-400 duration-300 ease-in hover:shadow-violet-400 sm:px-8 md:px-16">
+    <nav className="fixed top-0 z-10 w-full bg-slate-200 px-2 text-slate-900 shadow-lg shadow-gray-400 duration-300 ease-in hover:shadow-violet-400 sm:px-8 md:px-16">
       <div className="mx-auto flex flex-wrap items-center justify-between p-4">
         <div className="flex justify-center space-x-4">
           <div className="flex flex-row duration-200 ease-in hover:scale-105 hover:text-violet-700">
