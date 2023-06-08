@@ -34,10 +34,10 @@ const Navbar: React.FC = () => {
           </Link>
           {isSignedIn && (
             <Link
-              href="/collection"
+              href="/history"
               className="flex content-center items-center justify-center p-1 duration-200 ease-in hover:scale-105 hover:text-violet-700"
             >
-              Collection
+              History
             </Link>
           )}
         </div>
