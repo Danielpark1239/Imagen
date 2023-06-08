@@ -10,6 +10,7 @@ import { LoadingPage, LoadingSpinner } from "~/components/loading"
 import { useState } from "react"
 import { toast } from "react-hot-toast"
 import Navbar from "~/components/navbar"
+import Footer from "~/components/footer"
 
 dayjs.extend(relativeTime)
 
@@ -137,9 +138,9 @@ const Generate: NextPage = () => {
       <Head>
         <title>Imagen</title>
       </Head>
-      <main className="flex h-screen justify-center">
+      <main className="justify-center">
         <Navbar />
-        <div className="mt-24 border-x border-slate-400 text-black md:max-w-2xl">
+        <div className="mt-24 border-x border-slate-400 text-black">
           <div className="flex border-b border-slate-400 p-4">
             {isSignedIn && (
               <div className="flex justify-center">
@@ -150,6 +151,7 @@ const Generate: NextPage = () => {
           </div>
           <Feed />
         </div>
+        <Footer />
       </main>
     </>
   )
