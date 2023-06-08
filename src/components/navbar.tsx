@@ -66,18 +66,6 @@ const Navbar: React.FC = () => {
             }}
           />
         </div>
-        {/* {open && (
-          <div className="bg-navy z-auto mt-4 flex h-auto w-full flex-col items-center gap-4 transition duration-500 ease-in md:hidden">
-            <AnchorLink
-              href="#about"
-              className="nav-link hover:text-gold relative p-1 text-white"
-              onClick={() => setOpen(!open)}
-            >
-              About
-              <span className="nav-link-hover"></span>
-            </AnchorLink>
-          </div>
-        )} */}
       </div>
     </nav>
   )
