@@ -2,7 +2,7 @@ import { type NextPage } from "next"
 import Image from "next/image"
 import type { RouterOutputs } from "~/utils/api"
 import Head from "next/head"
-import { SignIn, useUser } from "@clerk/nextjs"
+import { useUser } from "@clerk/nextjs"
 import { api } from "~/utils/api"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
@@ -25,6 +25,7 @@ const CreateImageWizard = () => {
     onSuccess: () => {
       setInput("")
       void ctx.images.getAll.invalidate()
+      void ctx.images.getAllUser.invalidate()
     },
     onError: (e) => {
       // TRPC Error
@@ -46,13 +47,6 @@ const CreateImageWizard = () => {
 
   return (
     <div className="flex w-full gap-3">
-      <Image
-        width={56}
-        height={56}
-        className="h-14 w-14 rounded-full"
-        src={user.profileImageUrl}
-        alt="Profile image"
-      />
       <input
         className="grow bg-transparent outline-none"
         placeholder="Enter a prompt!"
@@ -79,19 +73,12 @@ const CreateImageWizard = () => {
 
 type ImageWithUser = RouterOutputs["images"]["getAllUser"][number]
 const ImageView = (props: ImageWithUser) => {
-  const { image, author } = props
+  const { image } = props
   return (
     <div
       className="flex gap-3 border-b border-slate-400 p-4 text-black"
       key={image.id}
     >
-      <Image
-        width={56}
-        height={56}
-        className="h-14 w-14 rounded-full"
-        src={author.profileImageUrl}
-        alt="Profile image"
-      />
       <Image
         width={1024}
         height={1024}
@@ -128,7 +115,7 @@ const Feed = () => {
 }
 
 const Generate: NextPage = () => {
-  const { isLoaded: userLoaded, isSignedIn } = useUser()
+  const { isLoaded: userLoaded } = useUser()
   api.images.getAllUser.useQuery() // Start fetching asap
 
   if (!userLoaded) return <div />
@@ -142,12 +129,7 @@ const Generate: NextPage = () => {
         <Navbar />
         <div className="mt-24 border-x border-slate-400 text-black">
           <div className="flex border-b border-slate-400 p-4">
-            {isSignedIn && (
-              <div className="flex justify-center">
-                <SignIn />
-              </div>
-            )}
-            {isSignedIn && <CreateImageWizard />}
+            <CreateImageWizard />
           </div>
           <Feed />
         </div>
