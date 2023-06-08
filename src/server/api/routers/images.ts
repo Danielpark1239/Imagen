@@ -69,11 +69,7 @@ export const imagesRouter = createTRPCRouter({
         })
       }
       return {
-        image,
-        author: {
-          ...author,
-          username: author.username
-        }
+        image
       }
     })
   }),
