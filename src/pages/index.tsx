@@ -99,11 +99,13 @@ const Home: NextPage = () => {
             </div>
           </div>
           <div className="flex justify-center pt-8">
-            <button className="flex justify-center items-center w-48 h-12 bg-violet-600 hover:bg-violet-400 text-xl text-white font-bold py-2 px-4 border-b-4 border-violet-900 hover:border-violet-500 rounded-xl">
-              <Link href="/generate">
-                Get started
-              </Link>
-            </button>
+            <Link
+              href="/generate"
+              className="flex justify-center items-center w-48 h-12 bg-violet-700 duration-300 ease-in hover:scale-105
+              hover:bg-violet-600 text-xl text-white font-semibold py-2 px-4 border-b-4 border-violet-900 hover:border-violet-800 rounded-xl"
+            >
+              Get started
+            </Link>
           </div>
           <div className="align-center content-center text-slate-900 pt-4">
             <h1 className="text-center text-2xl font-semibold sm:text-3xl md:mb-5 md:text-4xl">
