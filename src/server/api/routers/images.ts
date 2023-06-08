@@ -8,8 +8,10 @@ import {
 } from "~/server/api/trpc"
 import { TRPCError } from "@trpc/server"
 import axios, { type AxiosError } from "axios"
+import { s3 } from "../../../aws-config.mjs"
+import type { AWSError, S3 } from "aws-sdk"
 
-type ImageResponse = {
+type DalleResponse = {
   'data': {
     'data': [
       {
@@ -17,6 +19,10 @@ type ImageResponse = {
       }
     ]
   }
+}
+
+type ImageResponse = {
+  'data': Buffer
 }
 
 const filterUserForClient = (user: User) => {
@@ -93,7 +99,7 @@ export const imagesRouter = createTRPCRouter({
 
       try {
         // Make call to DALL-E
-        const response: ImageResponse = await axios.post(
+        const dalleResponse: DalleResponse = await axios.post(
           "https://api.openai.com/v1/images/generations",
           {
             "prompt": prompt,
@@ -107,16 +113,38 @@ export const imagesRouter = createTRPCRouter({
             }
           }
         )
-        const imageUrl = response['data']['data'][0]['url']
-        const image = await ctx.prisma.image.create({
-          data: {
-            authorId,
-            prompt: input.prompt,
-            url: imageUrl
+        const imageUrl = dalleResponse['data']['data'][0]['url']
+        const imageResponse: ImageResponse = await axios.get(imageUrl, { responseType: 'arraybuffer' })
+        if (!imageResponse) {
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Error downloading image from DALL-E"
+          })
+        }
+        
+        // Create a unique key
+        const timeStamp = Date.now()
+        const randomString = Math.random().toString(36).substring(2, 15)
+        const s3Key = `${timeStamp}-${randomString}.jpg`
+        const uploadParams = {
+          Bucket: 'imagen-images',
+          Key: s3Key,
+          Body: imageResponse.data,
+        }
+        s3.putObject(uploadParams, (err: AWSError, _data: S3.PutObjectOutput) => {
+          if (err) {
+            console.log('Error uploading image to s3', err)
           }
         })
-        console.log(image)
-        return image
+        const s3Url = `https://imagen-images.s3.us-east-1.amazonaws.com/${s3Key}`
+        console.log(s3Url)
+        await ctx.prisma.image.create({
+          data: {
+            authorId: authorId,
+            prompt: prompt,
+            url: s3Url
+          }
+        })
       } catch {(error: AxiosError | Error) => {
         console.log(error)
         if (axios.isAxiosError(error)) {
@@ -135,12 +163,12 @@ export const imagesRouter = createTRPCRouter({
             })
           }
         } else {
-          console.error("Error generating image", error)
+          console.log("Error generating image", error)
           throw new TRPCError({
             code: "BAD_REQUEST",
             message: error.message
           })
         }
       }}
-  })
+    })
 })
