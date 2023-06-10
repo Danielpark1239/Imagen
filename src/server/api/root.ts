@@ -1,4 +1,5 @@
 import { imagesRouter } from "~/server/api/routers/images";
+import { suggestedPromptsRouter } from "~/server/api/routers/suggestedPrompts";
 import { createTRPCRouter } from "~/server/api/trpc";
 
 /**
@@ -8,6 +9,7 @@ import { createTRPCRouter } from "~/server/api/trpc";
  */
 export const appRouter = createTRPCRouter({
   images: imagesRouter,
+  suggestedPrompts: suggestedPromptsRouter,
 });
 
 // export type definition of API
