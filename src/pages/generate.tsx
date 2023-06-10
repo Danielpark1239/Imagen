@@ -73,7 +73,7 @@ const CreateImageWizard = () => {
           </li>
           <li>
             Try to avoid overly complicated prompts as well as images with
-            multiple human subjects.
+            multiple human subjects, as it may lead to distortions.
           </li>
         </ul>
       </div>
@@ -98,7 +98,7 @@ const CreateImageWizard = () => {
         </div>
         <div className="flex w-full flex-row rounded-lg border-b-2 border-slate-400 bg-slate-100 font-semibold text-black">
           <input
-            className="text-md flex w-11/12 flex-wrap items-center justify-center rounded-lg p-2"
+            className="bg-slate-50 text-md flex w-11/12 flex-wrap items-center justify-center rounded-lg p-2"
             placeholder="Enter a prompt!"
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -108,7 +108,7 @@ const CreateImageWizard = () => {
             <button
               onClick={() => mutate({ prompt: input })}
               disabled={isGenerating || input === ""}
-              className="w-1/12 rounded-lg border-l-2 bg-white disabled:text-slate-300"
+              className="w-1/12 rounded-lg border-l-2 bg-slate-50 disabled:text-slate-300 disabled:bg-slate-50 hover:text-violet-700 duration-300 ease-in"
             >
               Generate
             </button>
@@ -128,6 +128,7 @@ const CreateImageWizard = () => {
               className="h-80 w-80"
               src={createdImage.url}
               alt="Generated image"
+              quality={100}
             />
             <div className="flex flex-col px-8">
               <div className="flex gap-1 font-bold text-slate-300">
