@@ -17,7 +17,6 @@ const HomeImageDisplay = ({ image }: HomeImageDisplayProps) => {
   const [hovered, setHovered] = useState(false)
   const handleMouseEnter = () => {
     setHovered(true)
-    console.log(true)
   }
   const handleMouseLeave = () => {
     setHovered(false)
@@ -37,7 +36,7 @@ const HomeImageDisplay = ({ image }: HomeImageDisplayProps) => {
         height={512}
         key={image.id}
       />
-      <div className="p-4 absolute inset-0 flex font-serif font-medium justify-start opacity-0 hover:opacity-100 transition-opacity duration-300">
+      <div className="p-4 absolute inset-0 flex overflow-auto font-serif font-medium justify-start opacity-0 hover:opacity-100 transition-opacity duration-300">
         {image.prompt}
       </div>
     </div>
@@ -57,7 +56,7 @@ const LatestImages = () => {
   if (!data) return <div>Something went wrong</div>
 
   return (
-    <div className="grid grid-cols-4 justify-center gap-8 px-12">
+    <div className="grid grid-cols-4 justify-center gap-8 px-36">
       {data?.map((image) => (
         <HomeImageDisplay image={image} key={image.id}/>
       ))}
