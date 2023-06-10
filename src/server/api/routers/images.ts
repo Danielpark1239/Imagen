@@ -9,7 +9,6 @@ import {
 import { TRPCError } from "@trpc/server"
 import axios, { type AxiosError } from "axios"
 import { s3 } from "../../../aws-config.mjs"
-import type { AWSError, S3 } from "aws-sdk"
 
 type DalleResponse = {
   'data': {
@@ -79,12 +78,20 @@ export const imagesRouter = createTRPCRouter({
       z.object({
         prompt: z.string()
           .min(1, {message: "Prompt cannot be empty"})
-          .max(500, {message: "Prompt cannot exceed 500 characters"})
       })
     )
     .mutation(async ({ ctx, input }) => {
       const authorId = ctx.userId
       const prompt = input.prompt
+      // For testing purposes
+      // const image = await ctx.prisma.image.findFirst({
+      //   take: 1,
+      //   orderBy: [
+      //     {createdAt: "desc"}
+      //   ]
+      // })
+      // return image
+    // })
       
       if (!process.env.OPENAI_API_KEY) {
         throw new TRPCError({
@@ -92,6 +99,24 @@ export const imagesRouter = createTRPCRouter({
           message: "OpenAI API key not found"
         })
       }
+      
+      // Define async func to upload to S3 bucket
+      type uploadParams = {
+        Bucket: string,
+        Key: string,
+        Body: Buffer
+      }
+      const uploadImage = (params: uploadParams) => {
+        return new Promise((resolve, reject) => {
+          s3.putObject(params, (err, data) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(data);
+            }
+          });
+        });
+      };
 
       try {
         // Make call to DALL-E
@@ -118,29 +143,29 @@ export const imagesRouter = createTRPCRouter({
           })
         }
         
-        // Create a unique key
+        // Create a unique key for image
         const timeStamp = Date.now()
         const randomString = Math.random().toString(36).substring(2, 15)
         const s3Key = `${timeStamp}-${randomString}.jpg`
-        const uploadParams = {
+
+        // Await S3 upload
+        await uploadImage({
           Bucket: 'imagen-images',
           Key: s3Key,
           Body: imageResponse.data,
-        }
-        s3.putObject(uploadParams, (err: AWSError, _data: S3.PutObjectOutput) => {
-          if (err) {
-            console.log('Error uploading image to s3', err)
-          }
         })
         const s3Url = `https://imagen-images.s3.us-east-1.amazonaws.com/${s3Key}`
         console.log(s3Url)
-        await ctx.prisma.image.create({
+        
+        // Create db record and return
+        const image = await ctx.prisma.image.create({
           data: {
             authorId: authorId,
             prompt: prompt,
             url: s3Url
           }
         })
+        return image
       } catch {(error: AxiosError | Error) => {
         console.log(error)
         if (axios.isAxiosError(error)) {
