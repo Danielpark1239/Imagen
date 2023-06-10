@@ -27,12 +27,13 @@ const ImageView = (props: ImageWithUser) => {
         className="h-64 w-64"
         src={image.url}
         alt="Generated image"
+        quality={100}
       />
       <div className="flex flex-col px-8">
         <div className="flex gap-1 font-bold text-slate-300">
           <span className="font-thin text-black">{`Generated ${createdTime}`}</span>
         </div>
-        <span className="text-xl font-serif overflow-auto">{image.prompt}</span>
+        <span className="overflow-auto font-serif text-xl">{image.prompt}</span>
       </div>
     </div>
   )
@@ -40,30 +41,41 @@ const ImageView = (props: ImageWithUser) => {
 
 const Feed = () => {
   const { data, isLoading: postsLoading } = api.images.getAllUser.useQuery()
-
   if (postsLoading) return <LoadingPage />
-
   if (!data) return <div>Something went wrong</div>
 
   return (
     <div className="h-min-screen flex flex-col content-center justify-center gap-2 px-36 pb-4">
-      <p className="text-center text-2xl font-semibold sm:text-3xl md:text-4xl pt-4">
-        You have {data ? data.length: 0} generated images
+      <p className="pt-4 text-center text-2xl font-semibold sm:text-3xl md:text-4xl">
+        You have <span className="text-violet-700">{data ? data.length : 0}</span> generated images
       </p>
       <div className="flex items-center justify-center py-4">
         <Link
           href="/generate"
-          className="flex h-10 w-50 items-center justify-center rounded-xl border-b-4 border-violet-900 bg-violet-700
+          className="w-50 flex h-10 items-center justify-center rounded-xl border-b-4 border-violet-900 bg-violet-700
           px-4 py-2 text-lg font-semibold text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
         >
           Generate new images
         </Link>
       </div>
-      <div className="bg-slate-50 rounded-lg border-2 border-slate-300">
-        {data?.map((fullImage) => (
-          <ImageView {...fullImage} key={fullImage.image.id} />
-        ))}
-      </div>
+      {data && (
+        <div className="rounded-lg border-2 border-slate-300 bg-slate-50">
+          {data?.map((fullImage) => (
+            <ImageView {...fullImage} key={fullImage.image.id} />
+          ))}
+        </div>
+      )}
+      {data && (
+        <div className="flex items-center justify-center py-4">
+          <Link
+            href="/generate"
+            className="w-50 flex h-10 items-center justify-center rounded-xl border-b-4 border-violet-900 bg-violet-700
+          px-4 py-2 text-lg font-semibold text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
+          >
+            Generate new images
+          </Link>
+        </div>
+      )}
     </div>
   )
 }

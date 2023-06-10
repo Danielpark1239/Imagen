@@ -35,6 +35,7 @@ const HomeImageDisplay = ({ image }: HomeImageDisplayProps) => {
         width={512}
         height={512}
         key={image.id}
+        quality={100}
       />
       <div className="p-4 absolute inset-0 flex overflow-auto font-serif font-medium justify-start opacity-0 hover:opacity-100 transition-opacity duration-300">
         {image.prompt}
@@ -94,6 +95,7 @@ const Home: NextPage = () => {
                 alt="Thumbnail"
                 width={512}
                 height={512}
+                quality={100}
               />
             </div>
           </div>
