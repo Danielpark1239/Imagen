@@ -3,10 +3,10 @@ import Image from "next/image"
 import Head from "next/head"
 import Link from "next/link"
 import { useUser } from "@clerk/nextjs"
-import { api } from "~/utils/api"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
-import { LoadingPage, LoadingSpinner } from "~/components/loading"
+import { api } from "~/utils/api"
+import { LoadingSpinner } from "~/components/loading"
 import { useState } from "react"
 import { toast } from "react-hot-toast"
 import Navbar from "~/components/navbar"
@@ -55,10 +55,10 @@ const CreateImageWizard = () => {
   } = api.suggestedPrompts.getRandom.useQuery()
 
   return (
-    <div className="flex h-screen w-screen flex-col content-center justify-center gap-2 px-36">
-      <div className="text-center text-2xl font-semibold sm:text-3xl md:text-4xl">
+    <div className="flex min-h-screen w-screen flex-col content-center justify-center gap-2 px-36">
+      <p className="text-center text-2xl font-semibold sm:text-3xl md:text-4xl">
         Generate an image
-      </div>
+      </p>
       <div className="py-4 pb-4 font-medium text-black">
         <p className="pb-1 text-xl font-semibold">Instructions for best use:</p>
         <ul className="list-decimal pl-8">
@@ -121,7 +121,7 @@ const CreateImageWizard = () => {
       </div>
       <div className="h-full">
         {createdImage && (
-          <div className="flex flex-row gap-4 rounded-lg border-2 border-slate-300 bg-slate-50 p-8">
+          <div className="flex flex-row gap-4 rounded-lg border-2 border-slate-300 bg-slate-50 p-4">
             <Image
               width={1024}
               height={1024}
@@ -129,16 +129,19 @@ const CreateImageWizard = () => {
               src={createdImage.url}
               alt="Generated image"
             />
-            <div className="flex content-center items-start justify-center overflow-auto font-serif">
-              <h1>{createdImage.prompt}</h1>
+            <div className="flex flex-col px-8">
+              <div className="flex gap-1 font-bold text-slate-300">
+                <span className="font-thin text-black">{`Generated ${dayjs(createdImage.createdAt).fromNow()}`}</span>
+              </div>
+              <span className="text-xl font-serif overflow-auto">{createdImage.prompt}</span>
             </div>
           </div>
         )}
         <div className="flex justify-center pt-8">
           <Link
             href="/history"
-            className="flex h-12 w-44 items-center justify-center rounded-xl border-b-4 border-violet-900 bg-violet-700
-            px-4 py-2 text-xl font-semibold text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
+            className="flex h-10 w-40 items-center justify-center rounded-xl border-b-4 border-violet-900 bg-violet-700
+            px-4 py-2 text-lg font-semibold text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
           >
             Image History
           </Link>
@@ -161,10 +164,8 @@ const Generate: NextPage = () => {
       </Head>
       <main className="justify-center">
         <Navbar />
-        <div className="mt-24 border-x border-slate-400 text-black">
-          <div className="flex border-b border-slate-400 p-4">
-            <CreateImageWizard />
-          </div>
+        <div className="flex p-4 mt-24 border-x border-slate-400 text-black">
+          <CreateImageWizard />
         </div>
         <Footer />
       </main>
