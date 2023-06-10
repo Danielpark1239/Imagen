@@ -20,3 +20,8 @@ model Image {
   url String @db.Text
   @@index([authorId, createdAt(sort: Desc)])
 }
+
+model SuggestedPrompt {
+  id        String   @id @default(cuid())
+  text String @db.Text
+}

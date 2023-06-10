@@ -1,7 +1,7 @@
 import { type NextPage } from "next"
 import Image from "next/image"
-import type { RouterOutputs } from "~/utils/api"
 import Head from "next/head"
+import Link from "next/link"
 import { useUser } from "@clerk/nextjs"
 import { api } from "~/utils/api"
 import dayjs from "dayjs"
@@ -21,7 +21,11 @@ const CreateImageWizard = () => {
     return null
   }
   const ctx = api.useContext()
-  const { mutate, isLoading: isGenerating } = api.images.create.useMutation({
+  const {
+    data: createdImage,
+    mutate,
+    isLoading: isGenerating,
+  } = api.images.create.useMutation({
     onSuccess: () => {
       setInput("")
       void ctx.images.getAll.invalidate()
@@ -44,72 +48,102 @@ const CreateImageWizard = () => {
       }
     },
   })
+  const {
+    data: suggestedPrompt,
+    isLoading,
+    refetch,
+  } = api.suggestedPrompts.getRandom.useQuery()
 
   return (
-    <div className="flex w-full gap-3">
-      <input
-        className="grow bg-transparent outline-none"
-        placeholder="Enter a prompt!"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        disabled={isGenerating}
-      ></input>
-      {input !== "" && !isGenerating && (
-        <button
-          onClick={() => mutate({ prompt: input })}
-          disabled={isGenerating}
-        >
-          Generate
-        </button>
-      )}
-      {isGenerating && (
-        <div className="flex items-center justify-center">
-          <LoadingSpinner size={20} />
-        </div>
-      )}
-    </div>
-  )
-}
-
-type ImageWithUser = RouterOutputs["images"]["getAllUser"][number]
-const ImageView = (props: ImageWithUser) => {
-  const { image } = props
-  return (
-    <div
-      className="flex gap-3 border-b border-slate-400 p-4 text-black"
-      key={image.id}
-    >
-      <Image
-        width={1024}
-        height={1024}
-        className="h-64 w-64"
-        src={image.url}
-        alt="Generated image"
-      />
-      <div className="flex flex-col">
-        <div className="flex gap-1 font-bold text-slate-300">
-          <span className="font-thin text-black">{`·   ${dayjs(
-            image.createdAt
-          ).fromNow()}`}</span>
-        </div>
-        <span className="text-xl">{image.prompt}</span>
+    <div className="flex h-screen w-screen flex-col content-center justify-center gap-2 px-36">
+      <div className="text-center text-2xl font-semibold sm:text-3xl md:text-4xl">
+        Generate an image
       </div>
-    </div>
-  )
-}
-
-const Feed = () => {
-  const { data, isLoading: postsLoading } = api.images.getAllUser.useQuery()
-
-  if (postsLoading) return <LoadingPage />
-
-  if (!data) return <div>Something went wrong</div>
-
-  return (
-    <div className="flex flex-col">
-      {data?.map((fullImage) => (
-        <ImageView {...fullImage} key={fullImage.image.id} />
-      ))}
+      <div className="py-4 pb-4 font-medium text-black">
+        <p className="pb-1 text-xl font-semibold">Instructions for best use:</p>
+        <ul className="list-decimal pl-8">
+          <li>Be as detailed as possible.</li>
+          <li>
+            Mention the style of image you want, such as cartoon, 3d render,
+            photo, painting, etc.
+          </li>
+          <li>
+            Be specific about the individual elements, background, and colors
+            you want in your image.
+          </li>
+          <li>
+            Try to avoid overly complicated prompts as well as images with
+            multiple human subjects.
+          </li>
+        </ul>
+      </div>
+      <div className="flex flex-col gap-2">
+        <div className="flex flex-row gap-2 text-sm">
+          <p className="flex items-center justify-center font-medium">
+            Want a sample prompt?
+          </p>
+          <button
+            onClick={() => {
+              // Set the input to the suggested prompt and refetch for the next button press
+              if (suggestedPrompt && !isLoading) {
+                setInput(suggestedPrompt.text)
+                void refetch()
+              }
+            }}
+            className="flex h-7 w-24 items-center justify-center rounded-lg border-b-2 border-violet-900
+          bg-violet-700 p-2 font-semibold text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
+          >
+            Surprise me
+          </button>
+        </div>
+        <div className="flex w-full flex-row rounded-lg border-b-2 border-slate-400 bg-slate-100 font-semibold text-black">
+          <input
+            className="text-md flex w-11/12 flex-wrap items-center justify-center rounded-lg p-2"
+            placeholder="Enter a prompt!"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            disabled={isGenerating}
+          ></input>
+          {!isGenerating ? (
+            <button
+              onClick={() => mutate({ prompt: input })}
+              disabled={isGenerating || input === ""}
+              className="w-1/12 rounded-lg border-l-2 bg-white disabled:text-slate-300"
+            >
+              Generate
+            </button>
+          ) : (
+            <div className="flex w-1/12 items-center justify-center rounded-lg border-l-2">
+              <LoadingSpinner size={32} />
+            </div>
+          )}
+        </div>
+      </div>
+      <div className="h-full">
+        {createdImage && (
+          <div className="flex flex-row gap-4 rounded-lg border-2 border-slate-300 bg-slate-50 p-8">
+            <Image
+              width={1024}
+              height={1024}
+              className="h-80 w-80"
+              src={createdImage.url}
+              alt="Generated image"
+            />
+            <div className="flex content-center items-start justify-center overflow-auto font-serif">
+              <h1>{createdImage.prompt}</h1>
+            </div>
+          </div>
+        )}
+        <div className="flex justify-center pt-8">
+          <Link
+            href="/history"
+            className="flex h-12 w-44 items-center justify-center rounded-xl border-b-4 border-violet-900 bg-violet-700
+            px-4 py-2 text-xl font-semibold text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
+          >
+            Image History
+          </Link>
+        </div>
+      </div>
     </div>
   )
 }
@@ -131,7 +165,6 @@ const Generate: NextPage = () => {
           <div className="flex border-b border-slate-400 p-4">
             <CreateImageWizard />
           </div>
-          <Feed />
         </div>
         <Footer />
       </main>
