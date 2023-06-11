@@ -40,9 +40,9 @@ const HomeImageDisplay = ({ image }: HomeImageDisplayProps) => {
         key={image.id}
         quality={100}
       />
-      <div className="bg-slate-50 absolute inset-0 flex justify-start overflow-auto p-4 font-serif font-medium opacity-0 shadow-xl shadow-slate-700 transition-opacity duration-200 ease-in hover:opacity-100 hover:shadow-lg hover:shadow-violet-500">
+      <p className="bg-slate-50 absolute inset-0 flex justify-start overflow-auto p-4 font-serif font-medium opacity-0 shadow-xl shadow-slate-700 transition-opacity duration-200 ease-in hover:opacity-100 hover:shadow-lg hover:shadow-violet-500">
         {image.prompt}
-      </div>
+      </p>
     </div>
   )
 }
