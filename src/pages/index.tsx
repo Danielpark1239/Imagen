@@ -24,12 +24,15 @@ const HomeImageDisplay = ({ image }: HomeImageDisplayProps) => {
 
   return (
     <div
-      className="col-span-1 relative"
+      className="relative col-span-1"
       key={image.id}
       onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}>
+      onMouseLeave={handleMouseLeave}
+    >
       <Image
-        className={`${hovered ? 'opacity-5' : 'opacity-100'} transition-opacity duration-300`}
+        className={`${
+          hovered ? "opacity-5" : "opacity-100"
+        } shadow-xl shadow-slate-700 transition-opacity duration-200 ease-in hover:shadow-violet-700`}
         src={image.url}
         alt="Image"
         width={512}
@@ -37,7 +40,7 @@ const HomeImageDisplay = ({ image }: HomeImageDisplayProps) => {
         key={image.id}
         quality={100}
       />
-      <div className="p-4 absolute inset-0 flex overflow-auto font-serif font-medium justify-start opacity-0 hover:opacity-100 transition-opacity duration-300">
+      <div className="absolute inset-0 flex justify-start overflow-auto p-4 font-serif font-medium opacity-0 shadow-xl shadow-slate-700 transition-opacity duration-200 ease-in hover:opacity-100 hover:shadow-lg hover:shadow-violet-500">
         {image.prompt}
       </div>
     </div>
@@ -91,6 +94,7 @@ const Home: NextPage = () => {
             </div>
             <div className="col-span-3 col-start-7 flex justify-center">
               <Image
+                className="shadow-xl shadow-slate-700 hover:shadow-lg hover:shadow-violet-500 duration-200 ease-in"
                 src="/thumbnail.png"
                 alt="Thumbnail"
                 width={512}
