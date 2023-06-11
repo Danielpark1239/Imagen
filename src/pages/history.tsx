@@ -67,7 +67,7 @@ const ImageView = (image: Image) => {
               image.createdAt
             ).fromNow()}`}</span>
           </div>
-          <span className="h-max-64 flex flex-wrap overflow-auto pb-4 pr-2 font-serif text-xl">
+          <span className="max-h-64 flex flex-wrap overflow-auto pb-4 pr-2 font-serif text-xl">
             {image.prompt}
           </span>
           <div className="flex h-fit content-end items-end justify-start gap-1 pt-1 align-bottom ml:gap-3">

@@ -92,15 +92,15 @@ const CreateImageWizard = () => {
         <ul className="list-decimal pl-8">
           <li>Be as detailed as possible.</li>
           <li>
-            Mention the style of image you want, such as cartoon, 3d render,
-            photo, painting, etc.
+            Mention the style of image you want, such as cartoon, painting, photo, 3d render,
+            Unreal Engine, 8k, etc.
           </li>
           <li>
             Be specific about the individual elements, background, and colors
             you want in your image.
           </li>
           <li>
-            Try to avoid overly complicated prompts as well as images with
+            Try to avoid overly complicated/specific prompts and images with
             multiple human subjects, as they may lead to distortions.
           </li>
         </ul>
@@ -175,7 +175,7 @@ const CreateImageWizard = () => {
                     createdImage.createdAt
                   ).fromNow()}`}</span>
                 </div>
-                <span className="h-max-64 flex flex-wrap overflow-auto pb-4 pr-2 font-serif text-xl">
+                <span className="max-h-64 flex flex-wrap overflow-auto pb-4 pr-2 font-serif text-xl">
                   {createdImage.prompt}
                 </span>
                 <div className="flex h-fit content-end items-end justify-start gap-1 align-bottom ml:gap-3">
