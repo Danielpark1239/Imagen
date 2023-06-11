@@ -23,6 +23,21 @@ type ImageResponse = {
 }
 
 export const imagesRouter = createTRPCRouter({
+  // Get user's most recently generated image
+  getLatest: protectedProcedure.query(async ({ ctx }) => {
+    const userId = ctx.userId
+    const image = await ctx.prisma.image.findFirst({
+      where: {
+        authorId: {
+          equals: userId
+        }
+      },
+      orderBy: [
+        {createdAt: "desc"}
+      ]
+    })
+    return image
+  }),
   // Get 100 most recently generated images in reverse chronological order
   getAll: publicProcedure.query(async ({ ctx }) => {
     const images = await ctx.prisma.image.findMany({
@@ -62,14 +77,14 @@ export const imagesRouter = createTRPCRouter({
       const authorId = ctx.userId
       const prompt = input.prompt
       // For testing purposes (return latest generated image)
-      // const image = await ctx.prisma.image.findFirst({
-      //   take: 1,
-      //   orderBy: [
-      //     {createdAt: "desc"}
-      //   ]
-      // })
-      // return image
-    // })
+    //   const image = await ctx.prisma.image.findFirst({
+    //     take: 1,
+    //     orderBy: [
+    //       {createdAt: "desc"}
+    //     ]
+    //   })
+    //   return image
+    // }),
       
       if (!process.env.OPENAI_API_KEY) {
         throw new TRPCError({
