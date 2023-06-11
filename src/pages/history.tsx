@@ -58,7 +58,7 @@ const ImageView = (image: Image) => {
         <Image
           width={1024}
           height={1024}
-          className="h-64 w-64"
+          className="h-64 w-64 shadow-lg shadow-slate-700 hover:shadow-violet-700 duration-200 ease-in hover:cursor-pointer"
           src={image.url}
           alt="Generated image"
           quality={100}
@@ -192,7 +192,7 @@ const Feed = () => {
           className="w-50 flex h-10 items-center justify-center rounded-xl border-b-4 border-violet-900 bg-violet-700
           px-4 py-2 text-lg font-semibold text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
         >
-          Generate new images
+          Generate a new image
         </Link>
       </div>
       {!!data.length && (

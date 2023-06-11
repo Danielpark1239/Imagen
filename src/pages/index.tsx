@@ -94,7 +94,7 @@ const Home: NextPage = () => {
             </div>
             <div className="col-span-3 col-start-7 flex justify-center">
               <Image
-                className="shadow-xl shadow-slate-700 hover:shadow-lg hover:shadow-violet-500 duration-200 ease-in"
+                className="shadow-xl shadow-slate-700 hover:shadow-violet-700 duration-200 ease-in"
                 src="/thumbnail.png"
                 alt="Thumbnail"
                 width={512}

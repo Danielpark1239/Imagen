@@ -124,7 +124,7 @@ const CreateImageWizard = () => {
             <Image
               width={1024}
               height={1024}
-              className="h-80 w-80"
+              className="h-80 w-80 shadow-lg shadow-slate-700 hover:shadow-violet-700 duration-200 ease-in hover:cursor-pointer"
               src={createdImage.url}
               alt="Generated image"
               quality={100}
