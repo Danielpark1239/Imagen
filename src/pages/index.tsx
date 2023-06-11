@@ -32,7 +32,7 @@ const HomeImageDisplay = ({ image }: HomeImageDisplayProps) => {
       <Image
         className={`${
           hovered ? "opacity-5" : "opacity-100"
-        } shadow-xl shadow-slate-700 transition-opacity duration-200 ease-in hover:shadow-violet-700`}
+        } shadow-xl shadow-slate-700 transition-opacity duration-200 ease-in hover:shadow-violet-700 h-84 w-84`}
         src={image.url}
         alt="Image"
         width={512}
@@ -60,7 +60,7 @@ const LatestImages = () => {
   if (!data) return <div>Something went wrong</div>
 
   return (
-    <div className="grid grid-cols-4 justify-center gap-8 px-36">
+    <div className="w-5/6 xs:w-11/12 ss:w-5/6 grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 justify-center gap-5 s:gap-6 ss:gap-8 max-w-screen-xl mx-auto">
       {data?.map((image) => (
         <HomeImageDisplay image={image} key={image.id}/>
       ))}
@@ -83,21 +83,21 @@ const Home: NextPage = () => {
             <span className="text-violet-700">Imagen</span> brings your
             imagination to life.
           </h1>
-          <div className="grid grid-cols-12">
-            <div className="align-center col-span-3 col-start-4 m-auto flex-wrap content-center p-8 font-medium">
-              <div className="break-words text-lg">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mx-auto w-5/6 max-w-screen-lg">
+            <div className="col-span-1 align-center m-auto flex-wrap content-center font-medium">
+              <div className="break-words text-lg ">
                 Empower your creative endeavors using the power of generative
                 AI. Streamline your workflow and lower your costs with our
                 state-of-the-art solution. It&apos;s never been easier to generate
                 stunning images with the click of a button!
               </div>
             </div>
-            <div className="col-span-3 col-start-7 flex justify-center">
+            <div className="col-span-1 flex items-center justify-center">
               <Image
-                className="shadow-xl shadow-slate-700 hover:shadow-violet-700 duration-200 ease-in"
+                className="w-full shadow-xl shadow-slate-700 hover:shadow-violet-700 duration-200 ease-in"
                 src="/thumbnail.png"
                 alt="Thumbnail"
-                width={512}
+                width={768}
                 height={512}
                 quality={100}
               />
@@ -113,7 +113,7 @@ const Home: NextPage = () => {
             </Link>
           </div>
           <div className="align-center content-center text-slate-900 pt-4">
-            <h1 className="text-center text-2xl font-semibold sm:text-3xl md:mb-5 md:text-4xl">
+            <h1 className="text-center text-2xl font-semibold sm:text-3xl md:mb-5 md:text-4xl pb-4 md:pb-0">
               Latest community-generated images
             </h1>
             <LatestImages />

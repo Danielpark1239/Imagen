@@ -8,12 +8,12 @@ const Navbar: React.FC = () => {
   const [open, setOpen] = useState(false)
   const { isSignedIn } = useUser()
   return (
-    <nav className="fixed top-0 z-10 w-full bg-slate-200 px-2 text-slate-900 shadow-lg shadow-gray-400 duration-300 ease-in hover:shadow-violet-400 sm:px-8 md:px-16">
-      <div className="mx-auto flex flex-wrap items-center justify-between p-4">
-        <div className="flex justify-center space-x-4">
-          <div className="flex flex-row duration-200 ease-in hover:scale-105 hover:text-violet-700">
+    <nav className="fixed top-0 z-10 w-full bg-slate-200 px-1 xss:px-2 text-slate-900 shadow-lg shadow-gray-400 duration-300 ease-in hover:shadow-violet-400 ss:px-8 md:px-16">
+      <div className="mx-auto flex flex-wrap items-center justify-between p-2 xss:p-4">
+        <div className="flex justify-center space-x-2 s:space-x-4">
+          <div className="flex xss:flex-row items-center justify-center duration-200 ease-in hover:scale-105 hover:text-violet-700">
             <Image
-              className=""
+              className="xss:w-12 xss:h-12 h-10 w-10 justify-center items-center"
               src="/logo.png"
               alt="Logo"
               width={48}
@@ -21,7 +21,7 @@ const Navbar: React.FC = () => {
             />
             <Link
               href="/"
-              className="flex content-center items-center justify-center p-1 pb-2.5 text-2xl font-semibold"
+              className="flex content-center items-center justify-center p-1 pb-2 xss:pb-2.5 text-xl xss:text-2xl font-semibold"
             >
               Imagen
             </Link>
