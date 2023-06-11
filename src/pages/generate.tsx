@@ -30,6 +30,7 @@ const CreateImageWizard = () => {
       setInput("")
       void ctx.images.getAll.invalidate()
       void ctx.images.getAllUser.invalidate()
+      void ctx.images.invalidate()
     },
     onError: (e) => {
       // TRPC Error
@@ -154,7 +155,7 @@ const CreateImageWizard = () => {
 
 const Generate: NextPage = () => {
   const { isLoaded: userLoaded } = useUser()
-  api.images.getAllUser.useQuery() // Start fetching asap
+  api.suggestedPrompts.getRandom.useQuery() // Start fetching asap
 
   if (!userLoaded) return <div />
 
