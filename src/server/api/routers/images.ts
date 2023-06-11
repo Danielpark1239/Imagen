@@ -169,5 +169,21 @@ export const imagesRouter = createTRPCRouter({
           })
         }
       }}
+    }),
+  
+  // Delete an image given its id
+  delete: protectedProcedure
+    .input(
+      z.object({
+        id: z.string()
+          .min(1, {message: "id cannot be empty"})
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.image.delete({
+        where: {
+          id: input.id
+        }
+      })
     })
 })
