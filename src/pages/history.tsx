@@ -20,7 +20,8 @@ dayjs.extend(relativeTime)
 type Image = RouterOutputs["images"]["getAllUser"][number]
 const ImageView = (image: Image) => {
   const createdTime = dayjs(image.createdAt).fromNow()
-  const [modalOpen, setModalOpen] = useState(false)
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false)
+  const [imageModalOpen, setImageModalOpen] = useState(false)
   const cancelButtonRef = useRef(null)
 
   const { user } = useUser()
@@ -62,6 +63,7 @@ const ImageView = (image: Image) => {
           src={image.url}
           alt="Generated image"
           quality={100}
+          onClick={() => setImageModalOpen(true)}
         />
         <div className="flex flex-col px-8">
           <div className="flex gap-1 font-bold text-slate-300">
@@ -81,19 +83,19 @@ const ImageView = (image: Image) => {
             <button
               className="text-md flex h-9 items-center justify-center rounded-xl border-b-4 border-violet-900
               bg-violet-700 px-4 font-medium text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
-              onClick={() => setModalOpen(true)}
+              onClick={() => setDeleteModalOpen(true)}
             >
               Delete
             </button>
           </div>
         </div>
       </div>
-      <Transition appear show={modalOpen} as={Fragment}>
+      <Transition appear show={deleteModalOpen} as={Fragment}>
         <Dialog
           as="div"
           className="relative z-10"
           initialFocus={cancelButtonRef}
-          onClose={() => setModalOpen(false)}
+          onClose={() => setDeleteModalOpen(false)}
         >
           <Transition.Child
             as={Fragment}
@@ -150,7 +152,7 @@ const ImageView = (image: Image) => {
                       className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
                       onClick={() => {
                         mutate({ id: image.id })
-                        setModalOpen(false)
+                        setDeleteModalOpen(false)
                       }}
                     >
                       Delete
@@ -158,11 +160,57 @@ const ImageView = (image: Image) => {
                     <button
                       type="button"
                       className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                      onClick={() => setModalOpen(false)}
+                      onClick={() => setDeleteModalOpen(false)}
                       ref={cancelButtonRef}
                     >
                       Cancel
                     </button>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
+      <Transition appear show={imageModalOpen} as={Fragment}>
+        <Dialog
+          as="div"
+          className="relative z-10"
+          onClose={() => setImageModalOpen(false)}
+        >
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-80" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-3xl">
+                  <div className="bg-slate-200 p-4">
+                    <Image
+                      width={1024}
+                      height={1024}
+                      className="h-full w-full"
+                      src={image.url}
+                      alt="Generated image"
+                      quality={100}
+                    />
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
