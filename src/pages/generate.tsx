@@ -28,8 +28,6 @@ const CreateImageWizard = () => {
   } = api.images.create.useMutation({
     onSuccess: () => {
       setInput("")
-      void ctx.images.getAll.invalidate()
-      void ctx.images.getAllUser.invalidate()
       void ctx.images.invalidate()
     },
     onError: (e) => {
@@ -74,7 +72,7 @@ const CreateImageWizard = () => {
           </li>
           <li>
             Try to avoid overly complicated prompts as well as images with
-            multiple human subjects, as it may lead to distortions.
+            multiple human subjects, as they may lead to distortions.
           </li>
         </ul>
       </div>
