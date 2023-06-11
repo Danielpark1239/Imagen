@@ -83,7 +83,7 @@ const CreateImageWizard = () => {
   } = api.suggestedPrompts.getRandom.useQuery()
 
   return (
-    <div className="flex min-h-screen w-screen flex-col content-center justify-center gap-2 px-36">
+    <div className="mx-auto flex min-h-screen w-11/12 max-w-screen-xl flex-col content-center justify-center gap-2 md:w-5/6">
       <p className="text-center text-2xl font-semibold sm:text-3xl md:text-4xl">
         Generate an image
       </p>
@@ -118,30 +118,39 @@ const CreateImageWizard = () => {
                 void refetch()
               }
             }}
-            className="flex h-7 w-24 items-center justify-center rounded-lg border-b-2 border-violet-900
-            bg-violet-700 p-2 font-semibold text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
+            className="flex items-center justify-center rounded-lg border-b-3 border-violet-900
+            bg-violet-700 px-1 py-0.5 font-semibold text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
           >
             Surprise me
           </button>
         </div>
-        <div className="flex w-full flex-row rounded-lg border-b-2 border-slate-400 bg-slate-100 font-semibold text-black">
-          <input
-            className="text-md flex w-11/12 flex-wrap items-center justify-center rounded-lg bg-slate-50 p-2"
+        <div className="flex w-full flex-col rounded-lg border-2 border-slate-300 bg-slate-50 font-semibold text-black shadow-lg shadow-slate-400 sm:flex-row">
+          <textarea
+            rows={4}
             placeholder="Enter a prompt!"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             disabled={isGenerating}
-          ></input>
+            className="flex w-full rounded-lg bg-slate-50 pl-2 pt-2 sm:hidden"
+          ></textarea>
+          <textarea
+            rows={2}
+            placeholder="Enter a prompt!"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            disabled={isGenerating}
+            className="hidden w-full rounded-lg bg-slate-50 pl-2 pt-2 sm:flex"
+          ></textarea>
           {!isGenerating ? (
             <button
               onClick={() => createMutate({ prompt: input })}
               disabled={isGenerating || input === ""}
-              className="w-1/12 rounded-lg border-l-2 bg-slate-50 duration-300 ease-in hover:text-violet-700 disabled:bg-slate-50 disabled:text-slate-300"
+              className="rounded-lg border-t-1 border-slate-300 p-2 duration-300 ease-in  hover:text-violet-700 disabled:bg-slate-50 disabled:text-slate-300 sm:border-l-1 sm:border-t-0"
             >
               Generate
             </button>
           ) : (
-            <div className="flex w-1/12 items-center justify-center rounded-lg border-l-2">
+            <div className="flex w-1/12 items-center justify-center border-l-2">
               <LoadingSpinner size={32} />
             </div>
           )}
@@ -150,26 +159,26 @@ const CreateImageWizard = () => {
       <div className="h-full">
         {createdImage && (
           <>
-            <div className="flex flex-row gap-4 rounded-lg border-2 border-slate-300 bg-slate-50 p-4">
+            <div className="mt-4 flex h-auto flex-col items-center justify-center gap-4 rounded-lg border-2 border-slate-300 bg-slate-50 p-4 shadow-xl shadow-slate-400 sm:flex-row">
               <Image
                 width={1024}
                 height={1024}
-                className="h-80 w-80 shadow-lg shadow-slate-700 duration-200 ease-in hover:cursor-pointer hover:shadow-violet-700"
+                className="h-52 w-52 shadow-lg shadow-slate-500 duration-200 ease-in hover:cursor-pointer hover:shadow-violet-700 xs:h-64 xs:w-64 s:h-72 s:w-72 ss:h-80 ss:w-80"
                 src={createdImage.url}
                 alt="Generated image"
                 quality={100}
                 onClick={() => setImageModalOpen(true)}
               />
-              <div className="flex flex-col px-8">
+              <div className="flex w-full flex-col items-start md:px-2 ml:px-8">
                 <div className="flex gap-1 font-bold text-slate-300">
                   <span className="font-thin text-black">{`Generated ${dayjs(
                     createdImage.createdAt
                   ).fromNow()}`}</span>
                 </div>
-                <span className="h-5/6 overflow-auto pb-4 font-serif text-xl">
+                <span className="h-max-64 flex flex-wrap overflow-auto pb-4 pr-2 font-serif text-xl">
                   {createdImage.prompt}
                 </span>
-                <div className="flex h-fit content-end items-end justify-start gap-3 align-bottom">
+                <div className="flex h-fit content-end items-end justify-start gap-1 align-bottom ml:gap-3">
                   <Link
                     href={createdImage.url}
                     className="text-md flex h-9 items-center justify-center rounded-xl border-b-4 border-violet-900
@@ -270,58 +279,58 @@ const CreateImageWizard = () => {
               </Dialog>
             </Transition>
             <Transition appear show={imageModalOpen} as={Fragment}>
-        <Dialog
-          as="div"
-          className="relative z-10"
-          onClose={() => setImageModalOpen(false)}
-        >
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black bg-opacity-80" />
-          </Transition.Child>
-
-          <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
+              <Dialog
+                as="div"
+                className="relative z-10"
+                onClose={() => setImageModalOpen(false)}
               >
-                <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-3xl">
-                  <div className="bg-slate-200 p-4">
-                    <Image
-                      width={1024}
-                      height={1024}
-                      className="h-full w-full"
-                      src={createdImage.url}
-                      alt="Generated image"
-                      quality={100}
-                    />
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0"
+                  enterTo="opacity-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                >
+                  <div className="fixed inset-0 bg-black bg-opacity-80" />
+                </Transition.Child>
+
+                <div className="fixed inset-0 overflow-y-auto">
+                  <div className="flex min-h-full items-center justify-center p-4 text-center">
+                    <Transition.Child
+                      as={Fragment}
+                      enter="ease-out duration-300"
+                      enterFrom="opacity-0 scale-95"
+                      enterTo="opacity-100 scale-100"
+                      leave="ease-in duration-200"
+                      leaveFrom="opacity-100 scale-100"
+                      leaveTo="opacity-0 scale-95"
+                    >
+                      <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-3xl">
+                        <div className="bg-slate-200 p-4">
+                          <Image
+                            width={1024}
+                            height={1024}
+                            className="h-full w-full"
+                            src={createdImage.url}
+                            alt="Generated image"
+                            quality={100}
+                          />
+                        </div>
+                      </Dialog.Panel>
+                    </Transition.Child>
                   </div>
-                </Dialog.Panel>
-              </Transition.Child>
-            </div>
-          </div>
-        </Dialog>
-      </Transition>
+                </div>
+              </Dialog>
+            </Transition>
           </>
         )}
         <div className="flex justify-center pt-8">
           <Link
             href="/history"
-            className="flex h-10 w-40 items-center justify-center rounded-xl border-b-4 border-violet-900 bg-violet-700
-            px-4 py-2 text-lg font-semibold text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
+            className="flex items-center justify-center rounded-xl border-b-4 border-violet-900 bg-violet-700
+            px-2 py-1 text-lg font-semibold text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
           >
             Image History
           </Link>

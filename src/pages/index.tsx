@@ -32,7 +32,7 @@ const HomeImageDisplay = ({ image }: HomeImageDisplayProps) => {
       <Image
         className={`${
           hovered ? "opacity-5" : "opacity-100"
-        } shadow-xl shadow-slate-700 transition-opacity duration-200 ease-in hover:shadow-violet-700 h-84 w-84`}
+        } shadow-xl shadow-slate-500 transition-opacity duration-200 ease-in hover:shadow-violet-700 h-84 w-84`}
         src={image.url}
         alt="Image"
         width={512}
@@ -40,7 +40,7 @@ const HomeImageDisplay = ({ image }: HomeImageDisplayProps) => {
         key={image.id}
         quality={100}
       />
-      <div className="absolute inset-0 flex justify-start overflow-auto p-4 font-serif font-medium opacity-0 shadow-xl shadow-slate-700 transition-opacity duration-200 ease-in hover:opacity-100 hover:shadow-lg hover:shadow-violet-500">
+      <div className="bg-slate-50 absolute inset-0 flex justify-start overflow-auto p-4 font-serif font-medium opacity-0 shadow-xl shadow-slate-700 transition-opacity duration-200 ease-in hover:opacity-100 hover:shadow-lg hover:shadow-violet-500">
         {image.prompt}
       </div>
     </div>
@@ -106,7 +106,7 @@ const Home: NextPage = () => {
           <div className="flex justify-center pt-8">
             <Link
               href="/generate"
-              className="flex justify-center items-center w-48 h-12 bg-violet-700 duration-300 ease-in hover:scale-105
+              className="flex justify-center items-center bg-violet-700 duration-300 ease-in hover:scale-105
               hover:bg-violet-600 text-xl text-white font-semibold py-2 px-4 border-b-4 border-violet-900 hover:border-violet-800 rounded-xl"
             >
               Get started

@@ -19,7 +19,6 @@ dayjs.extend(relativeTime)
 
 type Image = RouterOutputs["images"]["getAllUser"][number]
 const ImageView = (image: Image) => {
-  const createdTime = dayjs(image.createdAt).fromNow()
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [imageModalOpen, setImageModalOpen] = useState(false)
   const cancelButtonRef = useRef(null)
@@ -52,37 +51,36 @@ const ImageView = (image: Image) => {
   })
   return (
     <>
-      <div
-        className="flex gap-3 border-b border-slate-400 p-4 text-black"
-        key={image.id}
-      >
+      <div className="mb-1 flex h-auto flex-col items-center justify-center gap-4 rounded-lg border-2 border-slate-300 bg-slate-50 p-4 shadow-lg shadow-slate-400 sm:flex-row">
         <Image
           width={1024}
           height={1024}
-          className="h-64 w-64 shadow-lg shadow-slate-700 hover:shadow-violet-700 duration-200 ease-in hover:cursor-pointer"
+          className="h-52 w-52 shadow-lg shadow-slate-500 duration-200 ease-in hover:cursor-pointer hover:shadow-violet-700 xs:h-64 xs:w-64 s:h-72 s:w-72 ss:h-80 ss:w-80"
           src={image.url}
           alt="Generated image"
           quality={100}
           onClick={() => setImageModalOpen(true)}
         />
-        <div className="flex flex-col px-8">
+        <div className="flex w-full flex-col items-start md:px-2 ml:px-8">
           <div className="flex gap-1 font-bold text-slate-300">
-            <span className="font-thin text-black">{`Generated ${createdTime}`}</span>
+            <span className="font-thin text-black">{`Generated ${dayjs(
+              image.createdAt
+            ).fromNow()}`}</span>
           </div>
-          <span className="h-5/6 overflow-auto pb-4 font-serif text-xl">
+          <span className="h-max-64 flex flex-wrap overflow-auto pb-4 pr-2 font-serif text-xl">
             {image.prompt}
           </span>
-          <div className="flex h-fit content-end items-end justify-start gap-3 align-bottom">
+          <div className="flex h-fit content-end items-end justify-start gap-1 pt-1 align-bottom ml:gap-3">
             <Link
               href={image.url}
               className="text-md flex h-9 items-center justify-center rounded-xl border-b-4 border-violet-900
-              bg-violet-700 px-4 font-medium text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
+                bg-violet-700 px-4 font-medium text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
             >
               Download
             </Link>
             <button
               className="text-md flex h-9 items-center justify-center rounded-xl border-b-4 border-violet-900
-              bg-violet-700 px-4 font-medium text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
+                bg-violet-700 px-4 font-medium text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
               onClick={() => setDeleteModalOpen(true)}
             >
               Delete
@@ -138,9 +136,9 @@ const ImageView = (image: Image) => {
                         </Dialog.Title>
                         <div className="mt-2">
                           <p className="text-sm text-gray-500">
-                            Are you sure you want to delete this image?
-                            Image data will be permanently removed. This
-                            action cannot be undone.
+                            Are you sure you want to delete this image? Image
+                            data will be permanently removed. This action cannot
+                            be undone.
                           </p>
                         </div>
                       </div>
@@ -228,7 +226,7 @@ const Feed = () => {
   if (!data) return <div>Something went wrong</div>
 
   return (
-    <div className="flex min-h-screen flex-col content-center gap-2 px-36 pb-4">
+    <div className="mx-auto flex min-h-screen w-11/12 max-w-screen-xl flex-col content-center justify-center gap-2 md:w-5/6">
       <p className="pt-4 text-center text-2xl font-semibold sm:text-3xl md:text-4xl">
         You have{" "}
         <span className="text-violet-700">{data ? data.length : 0}</span>{" "}
@@ -237,25 +235,25 @@ const Feed = () => {
       <div className="flex items-center justify-center py-4">
         <Link
           href="/generate"
-          className="w-50 flex h-10 items-center justify-center rounded-xl border-b-4 border-violet-900 bg-violet-700
-          px-4 py-2 text-lg font-semibold text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
+          className="flex items-center justify-center rounded-xl border-b-4 border-violet-900 bg-violet-700
+          px-2 py-1 text-lg font-semibold text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
         >
           Generate a new image
         </Link>
       </div>
       {!!data.length && (
-        <div className="rounded-lg border-2 border-slate-300 bg-slate-50">
+        <>
           {data?.map((fullImage) => (
             <ImageView {...fullImage} key={fullImage.id} />
           ))}
-        </div>
+        </>
       )}
       {!!data.length && data.length >= 3 && (
         <div className="flex items-center justify-center py-4">
           <Link
             href="/generate"
-            className="w-50 flex h-10 items-center justify-center rounded-xl border-b-4 border-violet-900 bg-violet-700
-          px-4 py-2 text-lg font-semibold text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
+            className="flex items-center justify-center rounded-xl border-b-4 border-violet-900 bg-violet-700
+          px-2 py-1 text-lg font-semibold text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
           >
             Generate new images
           </Link>
