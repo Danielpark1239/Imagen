@@ -1,5 +1,3 @@
-import type { User } from "@clerk/nextjs/dist/types/server"
-import { clerkClient } from "@clerk/nextjs"
 import { z } from "zod";
 import {
   createTRPCRouter,
@@ -24,15 +22,8 @@ type ImageResponse = {
   'data': Buffer
 }
 
-const filterUserForClient = (user: User) => {
-  return {
-    id: user.id,
-    username: user.username,
-    profileImageUrl: user.profileImageUrl
-  }
-}
-
 export const imagesRouter = createTRPCRouter({
+  // Get 100 most recently generated images in reverse chronological order
   getAll: publicProcedure.query(async ({ ctx }) => {
     const images = await ctx.prisma.image.findMany({
       take: 100,
@@ -43,36 +34,23 @@ export const imagesRouter = createTRPCRouter({
     return images
   }),
 
-  // Should optimize to more easily get all of a user's images
-  getAllUser: publicProcedure.query(async ({ ctx }) => {
+  // Get all of a user's images in reverse chronological order
+  getAllUser: protectedProcedure.query(async ({ ctx }) => {
+    const userId = ctx.userId
     const images = await ctx.prisma.image.findMany({
-      take: 100,
+      where: {
+        authorId: {
+          equals: userId
+        }
+      },
       orderBy: [
         {createdAt: "desc"}
       ]
     })
-
-    const users = ( 
-      await clerkClient.users.getUserList({
-        userId: images.map((image) => image.authorId),
-        limit: 100
-      })
-    ).map(filterUserForClient)
-
-    return images.map(image => {
-      const author = users.find((user) => user.id === image.authorId)
-      if (!author || !author.username) {
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Author for image not found"
-        })
-      }
-      return {
-        image
-      }
-    })
+    return images
   }),
 
+  // Generate a new image for a user
   create: protectedProcedure
     .input(
       z.object({
@@ -83,7 +61,7 @@ export const imagesRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const authorId = ctx.userId
       const prompt = input.prompt
-      // For testing purposes
+      // For testing purposes (return latest generated image)
       // const image = await ctx.prisma.image.findFirst({
       //   take: 1,
       //   orderBy: [

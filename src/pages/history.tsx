@@ -12,9 +12,8 @@ import { api } from "~/utils/api"
 
 dayjs.extend(relativeTime)
 
-type ImageWithUser = RouterOutputs["images"]["getAllUser"][number]
-const ImageView = (props: ImageWithUser) => {
-  const { image } = props
+type Image = RouterOutputs["images"]["getAllUser"][number]
+const ImageView = (image: Image) => {
   const createdTime = dayjs(image.createdAt).fromNow()
   return (
     <div
@@ -58,14 +57,14 @@ const Feed = () => {
           Generate new images
         </Link>
       </div>
-      {data && (
+      {!!data.length && (
         <div className="rounded-lg border-2 border-slate-300 bg-slate-50">
           {data?.map((fullImage) => (
-            <ImageView {...fullImage} key={fullImage.image.id} />
+            <ImageView {...fullImage} key={fullImage.id} />
           ))}
         </div>
       )}
-      {data && (
+      {!!data.length && data.length >= 3 && (
         <div className="flex items-center justify-center py-4">
           <Link
             href="/generate"
