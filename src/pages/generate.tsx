@@ -145,12 +145,12 @@ const CreateImageWizard = () => {
             <button
               onClick={() => createMutate({ prompt: input })}
               disabled={isGenerating || input === ""}
-              className="rounded-lg border-t-1 border-slate-300 p-2 duration-300 ease-in  hover:text-violet-700 disabled:bg-slate-50 disabled:text-slate-300 sm:border-l-1 sm:border-t-0"
+              className="rounded-lg sm:w-32 border-t-1 border-slate-300 p-2 duration-300 ease-in  hover:text-violet-700 disabled:bg-slate-50 disabled:text-slate-300 sm:border-l-1 sm:border-t-0"
             >
               Generate
             </button>
           ) : (
-            <div className="flex w-1/12 items-center justify-center border-l-2">
+            <div className="flex sm:w-32 items-center justify-center border-l-2">
               <LoadingSpinner size={32} />
             </div>
           )}
