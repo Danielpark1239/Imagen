@@ -119,7 +119,7 @@ const CreateImageWizard = () => {
               }
             }}
             className="flex items-center justify-center rounded-lg border-b-3 border-violet-900
-            bg-violet-700 px-1 py-0.5 font-semibold text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
+            bg-violet-600 px-2 py-1 font-semibold text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
           >
             Surprise me
           </button>
@@ -145,7 +145,7 @@ const CreateImageWizard = () => {
             <button
               onClick={() => createMutate({ prompt: input })}
               disabled={isGenerating || input === ""}
-              className="rounded-lg sm:w-32 border-t-1 border-slate-300 p-2 duration-300 ease-in  hover:text-violet-700 disabled:bg-slate-50 disabled:text-slate-300 sm:border-l-1 sm:border-t-0"
+              className="rounded-lg sm:w-32 border-t-1 border-slate-300 p-2 duration-300 ease-in  hover:text-violet-600 disabled:bg-slate-50 disabled:text-slate-300 sm:border-l-1 sm:border-t-0"
             >
               Generate
             </button>
@@ -182,13 +182,13 @@ const CreateImageWizard = () => {
                   <Link
                     href={createdImage.url}
                     className="text-md flex h-9 items-center justify-center rounded-xl border-b-4 border-violet-900
-                      bg-violet-700 px-4 font-medium text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
+                      bg-violet-600 px-4 font-medium text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
                   >
                     Download
                   </Link>
                   <button
                     className="text-md flex h-9 items-center justify-center rounded-xl border-b-4 border-violet-900
-                      bg-violet-700 px-4 font-medium text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
+                      bg-violet-600 px-4 font-medium text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
                     onClick={() => setDeleteModalOpen(true)}
                   >
                     Delete
@@ -329,7 +329,7 @@ const CreateImageWizard = () => {
         <div className="flex justify-center pt-8">
           <Link
             href="/history"
-            className="flex items-center justify-center rounded-xl border-b-4 border-violet-900 bg-violet-700
+            className="flex items-center justify-center rounded-xl border-b-4 border-violet-900 bg-violet-600
             px-2 py-1 text-lg font-semibold text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
           >
             Image History

@@ -80,7 +80,7 @@ const Home: NextPage = () => {
         <Navbar />
         <div className="align-center mt-24 flex w-screen flex-col content-center gap-8 p-4 pb-8 text-slate-900">
           <h1 className="pb-8 pt-16 text-center text-3xl font-bold sm:text-4xl md:mb-5 md:text-5xl lg:text-7xl">
-            <span className="text-violet-700">Imagen</span> brings your
+            <span className="text-violet-600">Imagen</span> brings your
             imagination to life.
           </h1>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mx-auto w-5/6 max-w-screen-lg">
@@ -106,7 +106,7 @@ const Home: NextPage = () => {
           <div className="flex justify-center pt-8">
             <Link
               href="/generate"
-              className="flex justify-center items-center bg-violet-700 duration-300 ease-in hover:scale-105
+              className="flex justify-center items-center bg-violet-600 duration-300 ease-in hover:scale-105
               hover:bg-violet-600 text-xl text-white font-semibold py-2 px-4 border-b-4 border-violet-900 hover:border-violet-800 rounded-xl"
             >
               Get started

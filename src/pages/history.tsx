@@ -74,13 +74,13 @@ const ImageView = (image: Image) => {
             <Link
               href={image.url}
               className="text-md flex h-9 items-center justify-center rounded-xl border-b-4 border-violet-900
-                bg-violet-700 px-4 font-medium text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
+                bg-violet-600 px-4 font-medium text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
             >
               Download
             </Link>
             <button
               className="text-md flex h-9 items-center justify-center rounded-xl border-b-4 border-violet-900
-                bg-violet-700 px-4 font-medium text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
+                bg-violet-600 px-4 font-medium text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
               onClick={() => setDeleteModalOpen(true)}
             >
               Delete
@@ -229,13 +229,13 @@ const Feed = () => {
     <div className="mx-auto flex min-h-screen w-11/12 max-w-screen-xl flex-col content-center justify-center gap-2 md:w-5/6">
       <p className="pt-4 text-center text-2xl font-semibold sm:text-3xl md:text-4xl">
         You have{" "}
-        <span className="text-violet-700">{data ? data.length : 0}</span>{" "}
+        <span className="text-violet-600">{data ? data.length : 0}</span>{" "}
         generated images
       </p>
       <div className="flex items-center justify-center py-4">
         <Link
           href="/generate"
-          className="flex items-center justify-center rounded-xl border-b-4 border-violet-900 bg-violet-700
+          className="flex items-center justify-center rounded-xl border-b-4 border-violet-900 bg-violet-600
           px-2 py-1 text-lg font-semibold text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
         >
           Generate a new image
@@ -252,7 +252,7 @@ const Feed = () => {
         <div className="flex items-center justify-center py-4">
           <Link
             href="/generate"
-            className="flex items-center justify-center rounded-xl border-b-4 border-violet-900 bg-violet-700
+            className="flex items-center justify-center rounded-xl border-b-4 border-violet-900 bg-violet-600
           px-2 py-1 text-lg font-semibold text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
           >
             Generate new images
