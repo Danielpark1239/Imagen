@@ -34,6 +34,9 @@ const CreateImageWizard = () => {
     isLoading: isGenerating,
   } = api.images.create.useMutation({
     onSuccess: (createdData) => {
+      if (createdData === undefined) {
+        toast.error("Something went wrong. Adjust your prompt and try again.")
+      }
       setInput("")
       setCreatedImage(createdData)
       void ctx.images.invalidate()
