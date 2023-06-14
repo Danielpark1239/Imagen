@@ -25,3 +25,22 @@ model SuggestedPrompt {
   id        String   @id @default(cuid())
   text String @db.Text
 }
+
+model StripeUser {
+  id        String   @id @default(cuid())
+  clerkID   String   @unique
+  credits    Int
+}
+
+model StripeEvent {
+    id               String   @id @unique
+    api_version      String?
+    data             Json
+    request          Json?
+    type             String
+    object           String
+    account          String?
+    created          DateTime
+    livemode         Boolean
+    pending_webhooks Int
+}

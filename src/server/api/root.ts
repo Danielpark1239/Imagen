@@ -1,6 +1,8 @@
-import { imagesRouter } from "~/server/api/routers/images";
-import { suggestedPromptsRouter } from "~/server/api/routers/suggestedPrompts";
-import { createTRPCRouter } from "~/server/api/trpc";
+import { imagesRouter } from "~/server/api/routers/images"
+import { suggestedPromptsRouter } from "~/server/api/routers/suggestedPrompts"
+// import { checkoutRouter } from "~/server/api/routers/checkout";
+import { stripeUserRouter } from "~/server/api/routers/stripeUser";
+import { createTRPCRouter } from "~/server/api/trpc"
 
 /**
  * This is the primary router for your server.
@@ -10,6 +12,8 @@ import { createTRPCRouter } from "~/server/api/trpc";
 export const appRouter = createTRPCRouter({
   images: imagesRouter,
   suggestedPrompts: suggestedPromptsRouter,
+  // checkout: checkoutRouter,
+  stripeUser: stripeUserRouter
 });
 
 // export type definition of API

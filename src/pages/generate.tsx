@@ -29,16 +29,36 @@ const CreateImageWizard = () => {
     return null
   }
   const ctx = api.useContext()
-  const {
-    mutate: createMutate,
-    isLoading: isGenerating,
-  } = api.images.create.useMutation({
-    onSuccess: (createdData) => {
-      if (createdData === undefined) {
-        toast.error("Something went wrong. Adjust your prompt and try again.")
-      }
-      setInput("")
-      setCreatedImage(createdData)
+  const { mutate: createMutate, isLoading: isGenerating } =
+    api.images.create.useMutation({
+      onSuccess: (createdData) => {
+        if (createdData === undefined) {
+          toast.error("Something went wrong. Adjust your prompt and try again.")
+        }
+        decrementCredits()
+        setInput("")
+        setCreatedImage(createdData)
+        void ctx.images.invalidate()
+      },
+      onError: (e) => {
+        // TRPC Error
+        console.log(e)
+        if (e.message) {
+          toast.error(e.message)
+        } else {
+          // Zod Error
+          console.log(e.data?.zodError)
+          const errorMessage = e.data?.zodError?.fieldErrors.prompt
+          if (errorMessage && errorMessage[0]) {
+            toast.error(errorMessage[0])
+          } else {
+            toast.error(e.message)
+          }
+        }
+      },
+    })
+  const { mutate: deleteMutate } = api.images.delete.useMutation({
+    onSuccess: () => {
       void ctx.images.invalidate()
     },
     onError: (e) => {
@@ -58,9 +78,9 @@ const CreateImageWizard = () => {
       }
     },
   })
-  const { mutate: deleteMutate } = api.images.delete.useMutation({
+  const { mutate: decrementCredits } = api.stripeUser.decrementCredits.useMutation({
     onSuccess: () => {
-      void ctx.images.invalidate()
+      void ctx.stripeUser.invalidate()
     },
     onError: (e) => {
       // TRPC Error
@@ -95,8 +115,8 @@ const CreateImageWizard = () => {
         <ul className="list-decimal pl-8">
           <li>Be as detailed as possible.</li>
           <li>
-            Mention the style of image you want, such as cartoon, painting, photo, 3d render,
-            Unreal Engine, 8k, etc.
+            Mention the style of image you want, such as cartoon, painting,
+            photo, 3d render, Unreal Engine, 8k, etc.
           </li>
           <li>
             Be specific about the individual elements, background, and colors
@@ -145,15 +165,24 @@ const CreateImageWizard = () => {
             className="hidden w-full rounded-lg bg-slate-50 pl-2 pt-2 sm:flex"
           ></textarea>
           {!isGenerating ? (
-            <button
-              onClick={() => createMutate({ prompt: input })}
-              disabled={isGenerating || input === ""}
-              className="rounded-lg sm:w-32 border-t-1 border-slate-300 p-2 duration-300 ease-in  hover:text-violet-600 disabled:bg-slate-50 disabled:text-slate-300 sm:border-l-1 sm:border-t-0"
-            >
-              Generate
-            </button>
+            <div className="flex flex-row items-center justify-center border-t-1 border-slate-300 gap-1.5 p-2 sm:w-32 sm:border-l-1 sm:border-t-0">
+              <button
+                className="rounded-lg duration-300 ease-in hover:text-violet-600 disabled:bg-slate-50 disabled:text-slate-300"
+                onClick={() => createMutate({ prompt: input })}
+                disabled={isGenerating || input === ""}
+              >
+                Generate
+              </button>
+              <Image
+                className=""
+                src="/coin.png"
+                alt="credits"
+                width={22}
+                height={22}
+              />
+            </div>
           ) : (
-            <div className="flex sm:w-32 items-center justify-center border-l-2">
+            <div className="flex items-center justify-center border-l-2 sm:w-32">
               <LoadingSpinner size={32} />
             </div>
           )}
@@ -178,7 +207,7 @@ const CreateImageWizard = () => {
                     createdImage.createdAt
                   ).fromNow()}`}</span>
                 </div>
-                <span className="max-h-64 flex flex-wrap overflow-auto pb-4 pr-2 font-serif text-xl">
+                <span className="flex max-h-64 flex-wrap overflow-auto pb-4 pr-2 font-serif text-xl">
                   {createdImage.prompt}
                 </span>
                 <div className="flex h-fit content-end items-end justify-start gap-1 align-bottom ml:gap-3">
@@ -356,7 +385,7 @@ const Generate: NextPage = () => {
       </Head>
       <main className="justify-center">
         <Navbar />
-        <div className="flex p-4 mt-24 border-x border-slate-400 text-black">
+        <div className="flex p-4 pt-40 sm:pt-28 border-x border-slate-400 text-black">
           <CreateImageWizard />
         </div>
         <Footer />

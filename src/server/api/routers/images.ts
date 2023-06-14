@@ -85,6 +85,19 @@ export const imagesRouter = createTRPCRouter({
     //   })
     //   return image
     // }),
+
+      // Check if user has a positive token balance
+      const stripeUser = await ctx.prisma.stripeUser.findFirst({
+        where: {
+          clerkID: ctx.userId
+        }
+      })
+      if (!stripeUser || !stripeUser.credits || stripeUser?.credits <= 0) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "You don't have enough credits to generate an image. Please buy more credits."
+        })
+      }
       
       if (!process.env.OPENAI_API_KEY) {
         throw new TRPCError({
