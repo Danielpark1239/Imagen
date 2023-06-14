@@ -274,7 +274,7 @@ const HistoryPage: NextPage = () => {
       </Head>
       <main className="flex flex-col justify-center text-black">
         <Navbar />
-        <div className="mt-24 border-x border-slate-400 text-black">
+        <div className="pt-36 sm:pt-24 border-x border-slate-400 text-black">
           <Feed />
         </div>
         <Footer />

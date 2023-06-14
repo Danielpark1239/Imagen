@@ -62,7 +62,7 @@ const Navbar: React.FC = () => {
           />
         </div>
         <Link
-          href="/generate"
+          href="/buy"
           className="text-md flex items-center justify-center rounded-xl border-b-4 border-violet-900
           bg-violet-600 px-3 py-1.5 font-semibold text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
         >
