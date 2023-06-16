@@ -19,6 +19,13 @@ export const env = createEnv({
     OPENAI_API_KEY: z.string().min(1),
     AWS_ACCESS_KEY_ID: z.string().min(1),
     AWS_SECRET_ACCESS_KEY: z.string().min(1),
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string().min(1),
+    STRIPE_SECRET_KEY: z.string().min(1),
+    STRIPE_WEBHOOK_SECRET: z.string().min(1),
+    STRIPE_10CREDIT_PRICE: z.string().min(1),
+    STRIPE_50CREDIT_PRICE: z.string().min(1),
+    STRIPE_100CREDIT_PRICE: z.string().min(1),
+    HOST: z.string().min(1),
   },
 
   /**
@@ -49,6 +56,13 @@ export const env = createEnv({
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
     AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
     AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
+    STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
+    STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
+    STRIPE_10CREDIT_PRICE: process.env.STRIPE_10CREDIT_PRICE,
+    STRIPE_50CREDIT_PRICE: process.env.STRIPE_50CREDIT_PRICE,
+    STRIPE_100CREDIT_PRICE: process.env.STRIPE_100CREDIT_PRICE,
+    HOST: process.env.HOST,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.

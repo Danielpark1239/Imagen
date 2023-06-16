@@ -1,13 +1,25 @@
 import { type NextPage } from "next"
 import Head from "next/head"
 import Image from "next/image"
-import Link from "next/link"
+import { useRouter } from "next/router"
+import { useState } from "react"
 import Navbar from "../components/navbar"
 import Footer from "../components/footer"
 import { api } from "~/utils/api"
+import { LoadingSpinner } from "~/components/loading"
 
 const Home: NextPage = () => {
   api.images.getAll.useQuery() // Start fetching asap
+  const { push } = useRouter()
+  const { mutateAsync: createCheckout10 } =
+    api.checkout.createCheckout10.useMutation()
+  const { mutateAsync: createCheckout50 } =
+    api.checkout.createCheckout50.useMutation()
+  const { mutateAsync: createCheckout100 } =
+    api.checkout.createCheckout100.useMutation()
+  const [checkout10Loading, setCheckout10Loading] = useState(false)
+  const [checkout50Loading, setCheckout50Loading] = useState(false)
+  const [checkout100Loading, setCheckout100Loading] = useState(false)
 
   return (
     <>
@@ -33,13 +45,22 @@ const Home: NextPage = () => {
                 height={128}
               />
               <h1 className="text-2xl font-semibold">10 Credits</h1>
-              <Link
-                href="/"
-                className="text-md flex items-center justify-center rounded-xl border-b-4 border-violet-900
+              {checkout10Loading && <LoadingSpinner size={28} />}
+              {!checkout10Loading && (
+                <button
+                  onClick={async () => {
+                    setCheckout10Loading(true)
+                    const checkoutUrl = await createCheckout10()
+                    if (checkoutUrl) {
+                      void push(checkoutUrl)
+                    }
+                  }}
+                  className="text-md flex items-center justify-center rounded-xl border-b-4 border-violet-900
             bg-violet-600 px-3 py-1.5 font-semibold text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
-              >
-                Buy for $0.99
-              </Link>
+                >
+                  Buy for $0.99
+                </button>
+              )}
             </div>
             <div className="flex flex-col items-center justify-center gap-4 rounded-lg border-2 border-slate-300 bg-slate-100 p-8 shadow-lg shadow-slate-400 xl:px-16">
               <Image
@@ -50,13 +71,22 @@ const Home: NextPage = () => {
                 height={128}
               />
               <h1 className="text-2xl font-semibold">50 Credits</h1>
-              <Link
-                href="/"
-                className="text-md flex items-center justify-center rounded-xl border-b-4 border-violet-900
+              {checkout50Loading && <LoadingSpinner size={28} />}
+              {!checkout50Loading && (
+                <button
+                  onClick={async () => {
+                    setCheckout50Loading(true)
+                    const checkoutUrl = await createCheckout50()
+                    if (checkoutUrl) {
+                      void push(checkoutUrl)
+                    }
+                  }}
+                  className="text-md flex items-center justify-center rounded-xl border-b-4 border-violet-900
             bg-violet-600 px-3 py-1.5 font-semibold text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
-              >
-                Buy for $4.75
-              </Link>
+                >
+                  Buy for $4.75
+                </button>
+              )}
             </div>
             <div className="flex flex-col items-center justify-center gap-4 rounded-lg border-2 border-slate-300 bg-slate-100 p-8 shadow-lg shadow-slate-400 xl:px-16">
               <Image
@@ -67,13 +97,22 @@ const Home: NextPage = () => {
                 height={128}
               />
               <h1 className="text-2xl font-semibold">100 Credits</h1>
-              <Link
-                href="/"
-                className="text-md flex items-center justify-center rounded-xl border-b-4 border-violet-900
+              {checkout100Loading && <LoadingSpinner size={28} />}
+              {!checkout100Loading && (
+                <button
+                  onClick={async () => {
+                    setCheckout100Loading(true)
+                    const checkoutUrl = await createCheckout100()
+                    if (checkoutUrl) {
+                      void push(checkoutUrl)
+                    }
+                  }}
+                  className="text-md flex items-center justify-center rounded-xl border-b-4 border-violet-900
             bg-violet-600 px-3 py-1.5 font-semibold text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
-              >
-                Buy for $9.00
-              </Link>
+                >
+                  Buy for $9.00
+                </button>
+              )}
             </div>
           </div>
         </div>

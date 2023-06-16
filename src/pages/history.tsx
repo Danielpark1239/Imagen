@@ -31,6 +31,7 @@ const ImageView = (image: Image) => {
   const { mutate } = api.images.delete.useMutation({
     onSuccess: () => {
       void ctx.images.invalidate()
+      toast.success("Image successfully deleted!")
     },
     onError: (e) => {
       // TRPC Error

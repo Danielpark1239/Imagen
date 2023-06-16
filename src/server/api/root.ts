@@ -1,6 +1,6 @@
 import { imagesRouter } from "~/server/api/routers/images"
 import { suggestedPromptsRouter } from "~/server/api/routers/suggestedPrompts"
-// import { checkoutRouter } from "~/server/api/routers/checkout";
+import { checkoutRouter } from "~/server/api/routers/checkout";
 import { stripeUserRouter } from "~/server/api/routers/stripeUser";
 import { createTRPCRouter } from "~/server/api/trpc"
 
@@ -12,7 +12,7 @@ import { createTRPCRouter } from "~/server/api/trpc"
 export const appRouter = createTRPCRouter({
   images: imagesRouter,
   suggestedPrompts: suggestedPromptsRouter,
-  // checkout: checkoutRouter,
+  checkout: checkoutRouter,
   stripeUser: stripeUserRouter
 });
 

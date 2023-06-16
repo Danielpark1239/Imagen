@@ -34,8 +34,10 @@ const CreateImageWizard = () => {
       onSuccess: (createdData) => {
         if (createdData === undefined) {
           toast.error("Something went wrong. Adjust your prompt and try again.")
+        } else {
+          toast.success("Image successfully generated!")
+          decrementCredits()
         }
-        decrementCredits()
         setInput("")
         setCreatedImage(createdData)
         void ctx.images.invalidate()
@@ -60,6 +62,7 @@ const CreateImageWizard = () => {
   const { mutate: deleteMutate } = api.images.delete.useMutation({
     onSuccess: () => {
       void ctx.images.invalidate()
+      toast.success("Image successfully deleted!")
     },
     onError: (e) => {
       // TRPC Error
@@ -149,7 +152,7 @@ const CreateImageWizard = () => {
         </div>
         <div className="flex w-full flex-col rounded-lg border-2 border-slate-300 bg-slate-50 font-semibold text-black shadow-lg shadow-slate-400 sm:flex-row">
           <textarea
-            rows={4}
+            rows={5}
             placeholder="Enter a prompt!"
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -157,7 +160,7 @@ const CreateImageWizard = () => {
             className="flex w-full rounded-lg bg-slate-50 pl-2 pt-2 sm:hidden"
           ></textarea>
           <textarea
-            rows={2}
+            rows={3}
             placeholder="Enter a prompt!"
             value={input}
             onChange={(e) => setInput(e.target.value)}
