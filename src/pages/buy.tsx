@@ -21,6 +21,28 @@ const Home: NextPage = () => {
   const [checkout50Loading, setCheckout50Loading] = useState(false)
   const [checkout100Loading, setCheckout100Loading] = useState(false)
 
+  const handleCheckout10 = async () => {
+    setCheckout10Loading(true)
+    const checkoutUrl = await createCheckout10()
+    if (checkoutUrl) {
+      void push(checkoutUrl)
+    }
+  }
+  const handleCheckout50 = async () => {
+    setCheckout50Loading(true)
+    const checkoutUrl = await createCheckout50()
+    if (checkoutUrl) {
+      void push(checkoutUrl)
+    }
+  }
+  const handleCheckout100 = async () => {
+    setCheckout100Loading(true)
+    const checkoutUrl = await createCheckout100()
+    if (checkoutUrl) {
+      void push(checkoutUrl)
+    }
+  }
+
   return (
     <>
       <Head>
@@ -48,13 +70,7 @@ const Home: NextPage = () => {
               {checkout10Loading && <LoadingSpinner size={28} />}
               {!checkout10Loading && (
                 <button
-                  onClick={async () => {
-                    setCheckout10Loading(true)
-                    const checkoutUrl = await createCheckout10()
-                    if (checkoutUrl) {
-                      void push(checkoutUrl)
-                    }
-                  }}
+                  onClick={() => void {handleCheckout10}}
                   className="text-md flex items-center justify-center rounded-xl border-b-4 border-violet-900
             bg-violet-600 px-3 py-1.5 font-semibold text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
                 >
@@ -74,13 +90,7 @@ const Home: NextPage = () => {
               {checkout50Loading && <LoadingSpinner size={28} />}
               {!checkout50Loading && (
                 <button
-                  onClick={async () => {
-                    setCheckout50Loading(true)
-                    const checkoutUrl = await createCheckout50()
-                    if (checkoutUrl) {
-                      void push(checkoutUrl)
-                    }
-                  }}
+                  onClick={() => void handleCheckout50}
                   className="text-md flex items-center justify-center rounded-xl border-b-4 border-violet-900
             bg-violet-600 px-3 py-1.5 font-semibold text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
                 >
@@ -100,13 +110,7 @@ const Home: NextPage = () => {
               {checkout100Loading && <LoadingSpinner size={28} />}
               {!checkout100Loading && (
                 <button
-                  onClick={async () => {
-                    setCheckout100Loading(true)
-                    const checkoutUrl = await createCheckout100()
-                    if (checkoutUrl) {
-                      void push(checkoutUrl)
-                    }
-                  }}
+                  onClick={() => void handleCheckout100}
                   className="text-md flex items-center justify-center rounded-xl border-b-4 border-violet-900
             bg-violet-600 px-3 py-1.5 font-semibold text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
                 >
