@@ -76,7 +76,7 @@ const Navbar: React.FC = () => {
     <nav className="fixed top-0 z-10 w-full items-center justify-center bg-slate-200 px-1 align-middle text-slate-900 shadow-lg shadow-gray-400 duration-300 ease-in hover:shadow-violet-400 xss:px-2 ss:px-2 md:px-12 lg:px-16 xl:px-20">
       <div className="mx-auto flex flex-col items-center justify-between p-2 xss:p-4 sm:flex-row">
         <div className="flex justify-center space-x-2 pr-1 md:space-x-4 md:pr-2">
-          <div className="flex items-center justify-center duration-200 ease-in hover:scale-105 hover:text-violet-700 xss:flex-row">
+          <Link href="/" className="flex items-center justify-center duration-200 ease-in hover:scale-105 hover:text-violet-700 xss:flex-row">
             <Image
               className="h-10 w-10 items-center justify-center xss:h-12 xss:w-12"
               src="/logo.png"
@@ -84,13 +84,10 @@ const Navbar: React.FC = () => {
               width={48}
               height={48}
             />
-            <Link
-              href="/"
-              className="flex content-center items-center justify-center p-1 pb-2 text-xl font-semibold xss:pb-2.5 xss:text-2xl"
-            >
+            <h1 className="flex content-center items-center justify-center p-1 pb-2 text-xl font-semibold xss:pb-2.5 xss:text-2xl">
               Imagen
-            </Link>
-          </div>
+            </h1>
+          </Link>
           <Link
             href="/generate"
             className="flex content-center items-center justify-center p-1 duration-200 ease-in hover:scale-105 hover:text-violet-700"
