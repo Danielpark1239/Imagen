@@ -109,9 +109,12 @@ const Navbar: React.FC = () => {
         <div className="flex flex-row items-center gap-4 pl-1 pt-0.5 md:pl-2 lg:gap-6">
           <CreditsDisplay isSignedIn={isSignedIn} />
           {!isSignedIn && (
-            <button className="rounded-xl border-b-3 border-violet-900 bg-violet-600 px-3 py-1.5 text-white duration-200 ease-in hover:scale-105 hover:bg-violet-700">
-              <Link href="/sign-in">Sign in</Link>
-            </button>
+            <Link
+              href="/sign-in"
+              className="rounded-xl border-b-3 border-violet-900 bg-violet-600 px-3 py-1.5 text-white duration-200 ease-in hover:scale-105 hover:bg-violet-700"
+            >
+              Sign in
+            </Link>
           )}
           <UserButton
             afterSignOutUrl="/"
