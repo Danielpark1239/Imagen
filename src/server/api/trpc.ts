@@ -10,8 +10,9 @@ import { type FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch";
 import { prisma } from "~/server/db";
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
-import { auth } from "@clerk/nextjs";
+import { getAuth } from "@clerk/nextjs/server";
 import { ZodError } from "zod";
+import { NextApiRequest, NextApiResponse } from "next";
 
 /**
  * 1. CONTEXT
@@ -27,12 +28,14 @@ import { ZodError } from "zod";
  *
  * @see https://trpc.io/docs/context
  */
-export const createTRPCContext = (_opts: FetchCreateContextFnOptions) => {
-  const {userId } = auth()
+export const createTRPCContext = ( req: NextApiRequest, res: NextApiResponse) => {
+  const sesh = getAuth(req)
+  const userId = sesh.userId
+
   return {
     prisma,
     userId,
-  };
+  }
 };
 
 /**
