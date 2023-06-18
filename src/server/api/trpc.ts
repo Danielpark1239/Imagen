@@ -6,11 +6,11 @@
  * TL;DR - This is where all the tRPC server stuff is created and plugged in. The pieces you will
  * need to use are documented accordingly near the end.
  */
-import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
+import { type FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch";
 import { prisma } from "~/server/db";
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
-import { getAuth } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs";
 import { ZodError } from "zod";
 
 /**
@@ -27,12 +27,8 @@ import { ZodError } from "zod";
  *
  * @see https://trpc.io/docs/context
  */
-export const createTRPCContext = (opts: CreateNextContextOptions) => {
-  const { req } = opts;
-  const sesh = getAuth(req);
-
-  const userId = sesh.userId;
-
+export const createTRPCContext = (_opts: FetchCreateContextFnOptions) => {
+  const {userId } = auth()
   return {
     prisma,
     userId,
