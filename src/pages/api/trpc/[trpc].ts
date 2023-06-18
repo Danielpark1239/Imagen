@@ -7,6 +7,7 @@ import type { NextRequest } from 'next/server'
 
 export const config = { // Use Vercel edge runtime since image api sometimes times out
   runtime: 'edge',
+  unstable_allowDynamic:'*' // just testing
 };
 
 // export API handler
