@@ -28,8 +28,10 @@ import { NextApiRequest, NextApiResponse } from "next";
  *
  * @see https://trpc.io/docs/context
  */
-export const createTRPCContext = ( req: NextApiRequest, res: NextApiResponse) => {
-  const sesh = getAuth(req)
+export const createTRPCContext = ({req, resHeaders}: FetchCreateContextFnOptions) => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-ignore
+  const sesh = getAuth(req) 
   const userId = sesh.userId
 
   return {
