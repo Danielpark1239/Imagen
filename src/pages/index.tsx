@@ -85,11 +85,20 @@ const Home: NextPage = () => {
           </h1>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mx-auto w-5/6 max-w-screen-lg">
             <div className="col-span-1 align-center m-auto flex-wrap content-center font-medium">
-              <div className="break-words text-lg ">
+              <div className="break-words text-lg">
                 Empower your creative endeavors using the power of generative
                 AI. Streamline your workflow and lower your costs with our
                 state-of-the-art solution. It&apos;s never been easier to generate
                 stunning images with the click of a button!
+              </div>
+              <div className="flex justify-center pr-4 pt-4">
+                <Link
+                  href="/generate"
+                  className="flex justify-center items-center bg-violet-600 duration-300 ease-in hover:scale-105
+                  hover:bg-violet-600 text-xl text-white font-semibold py-1.5 px-2.5 border-b-4 border-violet-900 hover:border-violet-800 rounded-xl"
+                >
+                  Get started
+                </Link>
               </div>
             </div>
             <div className="col-span-1 flex items-center justify-center">
@@ -102,15 +111,6 @@ const Home: NextPage = () => {
                 quality={100}
               />
             </div>
-          </div>
-          <div className="flex justify-center pt-8">
-            <Link
-              href="/generate"
-              className="flex justify-center items-center bg-violet-600 duration-300 ease-in hover:scale-105
-              hover:bg-violet-600 text-xl text-white font-semibold py-2 px-4 border-b-4 border-violet-900 hover:border-violet-800 rounded-xl"
-            >
-              Get started
-            </Link>
           </div>
           <div className="align-center content-center text-slate-900 pt-4">
             <h1 className="text-center text-2xl font-semibold sm:text-3xl md:mb-5 md:text-4xl pb-4 md:pb-0">
