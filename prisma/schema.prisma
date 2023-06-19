@@ -18,6 +18,7 @@ model Image {
   prompt String @db.Text
   authorId String 
   url String @db.Text
+  hidden Boolean @default(false)
   @@index([authorId, createdAt(sort: Desc)])
 }
 

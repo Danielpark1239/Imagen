@@ -7,6 +7,9 @@ import Navbar from "../components/navbar"
 import Footer from "../components/footer"
 import { api } from "~/utils/api"
 import { LoadingSpinner } from "~/components/loading"
+import credits10 from "../../public/10_credits.png"
+import credits50 from "../../public/50_credits.png"
+import credits100 from "../../public/100_credits.png"
 
 const Home: NextPage = () => {
   api.images.getAll.useQuery() // Start fetching asap
@@ -39,10 +42,11 @@ const Home: NextPage = () => {
             <div className="flex flex-col items-center justify-center gap-4 rounded-lg border-2 border-slate-300 bg-slate-100 p-8 shadow-lg shadow-slate-400 xl:px-16">
               <Image
                 className="h-3/4"
-                src="/10_credits.png"
+                src={credits10}
                 alt="10 credits"
                 width={128}
                 height={128}
+                placeholder="blur"
               />
               <h1 className="text-2xl font-semibold">10 Credits</h1>
               {checkout10Loading && <LoadingSpinner size={28} />}
@@ -65,10 +69,11 @@ const Home: NextPage = () => {
             <div className="flex flex-col items-center justify-center gap-4 rounded-lg border-2 border-slate-300 bg-slate-100 p-8 shadow-lg shadow-slate-400 xl:px-16">
               <Image
                 className="h-3/4"
-                src="/50_credits.png"
+                src={credits50}
                 alt="50 credits"
                 width={128}
                 height={128}
+                placeholder="blur"
               />
               <h1 className="text-2xl font-semibold">50 Credits</h1>
               {checkout50Loading && <LoadingSpinner size={28} />}
@@ -91,10 +96,11 @@ const Home: NextPage = () => {
             <div className="flex flex-col items-center justify-center gap-4 rounded-lg border-2 border-slate-300 bg-slate-100 p-8 shadow-lg shadow-slate-400 xl:px-16">
               <Image
                 className="h-3/4"
-                src="/100_credits.png"
+                src={credits100}
                 alt="100 credits"
                 width={128}
                 height={128}
+                placeholder="blur"
               />
               <h1 className="text-2xl font-semibold">100 Credits</h1>
               {checkout100Loading && <LoadingSpinner size={28} />}

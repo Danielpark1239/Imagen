@@ -8,6 +8,7 @@ import Footer from "../components/footer"
 import { api } from "~/utils/api"
 import { LoadingSpinner } from "~/components/loading"
 import type { Image as PrismaImage } from "@prisma/client";
+import thumbnail from "../../public/thumbnail.png"
 
 type HomeImageDisplayProps = {
   image: PrismaImage
@@ -104,11 +105,12 @@ const Home: NextPage = () => {
             <div className="col-span-1 flex items-center justify-center">
               <Image
                 className="w-full shadow-xl shadow-slate-700 hover:shadow-violet-700 duration-200 ease-in"
-                src="/thumbnail.png"
+                src={thumbnail}
                 alt="Thumbnail"
                 width={768}
                 height={512}
                 quality={100}
+                placeholder="blur"
               />
             </div>
           </div>

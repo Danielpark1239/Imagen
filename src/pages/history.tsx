@@ -28,10 +28,54 @@ const ImageView = (image: Image) => {
     return null
   }
   const ctx = api.useContext()
-  const { mutate } = api.images.delete.useMutation({
+  const { mutate: mutateDelete } = api.images.delete.useMutation({
     onSuccess: () => {
       void ctx.images.invalidate()
       toast.success("Image successfully deleted!")
+    },
+    onError: (e) => {
+      // TRPC Error
+      console.log(e)
+      if (e.message) {
+        toast.error(e.message)
+      } else {
+        // Zod Error
+        console.log(e.data?.zodError)
+        const errorMessage = e.data?.zodError?.fieldErrors.prompt
+        if (errorMessage && errorMessage[0]) {
+          toast.error(errorMessage[0])
+        } else {
+          toast.error(e.message)
+        }
+      }
+    },
+  })
+  const { mutate: mutateHide } = api.images.hide.useMutation({
+    onSuccess: () => {
+      void ctx.images.invalidate()
+      toast.success("Image successfully hidden from the front page.")
+    },
+    onError: (e) => {
+      // TRPC Error
+      console.log(e)
+      if (e.message) {
+        toast.error(e.message)
+      } else {
+        // Zod Error
+        console.log(e.data?.zodError)
+        const errorMessage = e.data?.zodError?.fieldErrors.prompt
+        if (errorMessage && errorMessage[0]) {
+          toast.error(errorMessage[0])
+        } else {
+          toast.error(e.message)
+        }
+      }
+    },
+  })
+  const { mutate: mutateShow } = api.images.show.useMutation({
+    onSuccess: () => {
+      void ctx.images.invalidate()
+      toast.success("Image successfully shown on the front page.")
     },
     onError: (e) => {
       // TRPC Error
@@ -60,6 +104,8 @@ const ImageView = (image: Image) => {
           src={image.url}
           alt="Generated image"
           quality={100}
+          placeholder="blur"
+          blurDataURL="data:..."
           onClick={() => setImageModalOpen(true)}
         />
         <div className="flex w-full flex-col items-start md:px-2 ml:px-8">
@@ -86,6 +132,28 @@ const ImageView = (image: Image) => {
             >
               Delete
             </button>
+            {  image.hidden && (
+              <button
+                className="text-md flex h-9 items-center justify-center rounded-xl border-b-4 border-violet-900
+                  bg-violet-600 px-4 font-medium text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
+                onClick={() => mutateShow({ id: image.id })}
+              >
+                <span className="flex lg:hidden">Show</span>
+                <span className="hidden lg:flex">Show on front page</span>
+              </button>
+              )
+            }
+            {  !image.hidden && (
+              <button
+                className="text-md flex h-9 items-center justify-center rounded-xl border-b-4 border-violet-900
+                  bg-violet-600 px-4 font-medium text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
+                onClick={() => mutateHide({ id: image.id })}
+              >
+                <span className="flex lg:hidden">Hide</span>
+                <span className="hidden lg:flex">Hide on front page</span>
+              </button>
+              )
+            }
           </div>
         </div>
       </div>
@@ -150,7 +218,7 @@ const ImageView = (image: Image) => {
                       type="button"
                       className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
                       onClick={() => {
-                        mutate({ id: image.id })
+                        mutateDelete({ id: image.id })
                         setDeleteModalOpen(false)
                       }}
                     >

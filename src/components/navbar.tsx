@@ -4,6 +4,7 @@ import Image from "next/image"
 import { UserButton, useUser } from "@clerk/nextjs"
 import { api } from "~/utils/api"
 import { LoadingSpinner } from "~/components/loading"
+import coin from "../../public/coin.png"
 
 const Navbar: React.FC = () => {
   const { isSignedIn } = useUser()
@@ -55,10 +56,11 @@ const Navbar: React.FC = () => {
           </div>
           <Image
             className=""
-            src="/coin.png"
+            src={coin}
             alt="credits"
             width={24}
             height={24}
+            placeholder="blur"
           />
         </div>
         <Link

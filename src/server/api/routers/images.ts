@@ -41,6 +41,11 @@ export const imagesRouter = createTRPCRouter({
   // Get 100 most recently generated images in reverse chronological order
   getAll: publicProcedure.query(async ({ ctx }) => {
     const images = await ctx.prisma.image.findMany({
+      where: {
+        hidden: {
+          equals: false
+        }
+      },
       take: 100,
       orderBy: [
         {createdAt: "desc"}
@@ -213,5 +218,47 @@ export const imagesRouter = createTRPCRouter({
           id: input.id
         }
       })
-    })
+    }),
+  
+  // Show an image given its id
+  show: protectedProcedure
+    .input(
+      z.object({
+        id: z.string()
+          .min(1, {message: "id cannot be empty"})
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const image = await ctx.prisma.image.update({
+        where: {
+          id: input.id
+        },
+        data: {
+          hidden: false
+        }
+      })
+      return image
+    }
+  ),
+
+  // Hide an image given its id
+  hide: protectedProcedure
+    .input(
+      z.object({
+        id: z.string()
+          .min(1, {message: "id cannot be empty"})
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const image = await ctx.prisma.image.update({
+        where: {
+          id: input.id
+        },
+        data: {
+          hidden: true
+        }
+      })
+      return image
+    }
+  )
 })

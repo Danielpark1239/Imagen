@@ -14,6 +14,7 @@ import { toast } from "react-hot-toast"
 import Navbar from "~/components/navbar"
 import Footer from "~/components/footer"
 import type { Image as PrismaImage } from "@prisma/client"
+import coin from "../../public/coin.png"
 
 dayjs.extend(relativeTime)
 
@@ -107,6 +108,52 @@ const CreateImageWizard = () => {
     isLoading,
     refetch,
   } = api.suggestedPrompts.getRandom.useQuery()
+  const { mutate: mutateHide } = api.images.hide.useMutation({
+    onSuccess: (mutatedData) => {
+      setCreatedImage(mutatedData)
+      void ctx.images.invalidate()
+      toast.success("Image successfully hidden from the front page.")
+    },
+    onError: (e) => {
+      // TRPC Error
+      console.log(e)
+      if (e.message) {
+        toast.error(e.message)
+      } else {
+        // Zod Error
+        console.log(e.data?.zodError)
+        const errorMessage = e.data?.zodError?.fieldErrors.prompt
+        if (errorMessage && errorMessage[0]) {
+          toast.error(errorMessage[0])
+        } else {
+          toast.error(e.message)
+        }
+      }
+    },
+  })
+  const { mutate: mutateShow } = api.images.show.useMutation({
+    onSuccess: (mutatedData) => {
+      setCreatedImage(mutatedData)
+      void ctx.images.invalidate()
+      toast.success("Image successfully shown on the front page.")
+    },
+    onError: (e) => {
+      // TRPC Error
+      console.log(e)
+      if (e.message) {
+        toast.error(e.message)
+      } else {
+        // Zod Error
+        console.log(e.data?.zodError)
+        const errorMessage = e.data?.zodError?.fieldErrors.prompt
+        if (errorMessage && errorMessage[0]) {
+          toast.error(errorMessage[0])
+        } else {
+          toast.error(e.message)
+        }
+      }
+    },
+  })
 
   return (
     <div className="mx-auto flex min-h-screen w-11/12 max-w-screen-xl flex-col content-center justify-center gap-2 md:w-5/6">
@@ -168,7 +215,7 @@ const CreateImageWizard = () => {
             className="hidden w-full rounded-lg bg-slate-50 pl-2 pt-2 sm:flex"
           ></textarea>
           {!isGenerating ? (
-            <div className="flex flex-row items-center justify-center border-t-1 border-slate-300 gap-1.5 p-2 sm:w-32 sm:border-l-1 sm:border-t-0">
+            <div className="flex flex-row items-center justify-center gap-1.5 border-t-1 border-slate-300 p-2 sm:w-32 sm:border-l-1 sm:border-t-0">
               <button
                 className="rounded-lg duration-300 ease-in hover:text-violet-600 disabled:bg-slate-50 disabled:text-slate-300"
                 onClick={() => createMutate({ prompt: input })}
@@ -178,10 +225,11 @@ const CreateImageWizard = () => {
               </button>
               <Image
                 className=""
-                src="/coin.png"
+                src={coin}
                 alt="credits"
                 width={22}
                 height={22}
+                placeholder="blur"
               />
             </div>
           ) : (
@@ -202,6 +250,8 @@ const CreateImageWizard = () => {
                 src={createdImage.url}
                 alt="Generated image"
                 quality={100}
+                placeholder="blur"
+                blurDataURL="data:..."
                 onClick={() => setImageModalOpen(true)}
               />
               <div className="flex w-full flex-col items-start md:px-2 ml:px-8">
@@ -228,6 +278,26 @@ const CreateImageWizard = () => {
                   >
                     Delete
                   </button>
+                  {createdImage.hidden && (
+                    <button
+                      className="text-md flex h-9 items-center justify-center rounded-xl border-b-4 border-violet-900
+                  bg-violet-600 px-4 font-medium text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
+                      onClick={() => mutateShow({ id: createdImage.id })}
+                    >
+                      <span className="flex lg:hidden">Show</span>
+                      <span className="hidden lg:flex">Show on front page</span>
+                    </button>
+                  )}
+                  {!createdImage.hidden && (
+                    <button
+                      className="text-md flex h-9 items-center justify-center rounded-xl border-b-4 border-violet-900
+                  bg-violet-600 px-4 font-medium text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
+                      onClick={() => mutateHide({ id: createdImage.id })}
+                    >
+                      <span className="flex lg:hidden">Hide</span>
+                      <span className="hidden lg:flex">Hide on front page</span>
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
