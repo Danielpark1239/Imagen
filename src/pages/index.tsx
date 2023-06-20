@@ -1,13 +1,14 @@
 import { type NextPage } from "next";
-import { useState } from "react";
+import { Fragment, useState } from "react"
 import Head from "next/head"
 import Image from "next/image"
 import Link from "next/link"
+import { Dialog, Transition } from "@headlessui/react"
 import Navbar from "../components/navbar"
 import Footer from "../components/footer"
 import { api } from "~/utils/api"
 import { LoadingSpinner } from "~/components/loading"
-import type { Image as PrismaImage } from "@prisma/client";
+import type { Image as PrismaImage } from "@prisma/client"
 import thumbnail from "../../public/thumbnail.png"
 
 type HomeImageDisplayProps = {
@@ -15,6 +16,7 @@ type HomeImageDisplayProps = {
 }
 
 const HomeImageDisplay = ({ image }: HomeImageDisplayProps) => {
+  const [imageModalOpen, setImageModalOpen] = useState(false)
   const [hovered, setHovered] = useState(false)
   const handleMouseEnter = () => {
     setHovered(true)
@@ -24,27 +26,80 @@ const HomeImageDisplay = ({ image }: HomeImageDisplayProps) => {
   }
 
   return (
-    <div
-      className="relative col-span-1"
-      key={image.id}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      <Image
-        className={`${
-          hovered ? "opacity-5" : "opacity-100"
-        } shadow-xl shadow-slate-500 transition-opacity duration-200 ease-in hover:shadow-violet-700 h-84 w-84`}
-        src={image.url}
-        alt="Image"
-        width={512}
-        height={512}
+    <>
+      <div
+        className="relative col-span-1 hover:cursor-pointer"
         key={image.id}
-        quality={100}
-      />
-      <p className="bg-slate-50 absolute inset-0 flex justify-start overflow-auto p-4 font-serif font-medium opacity-0 shadow-xl shadow-slate-700 transition-opacity duration-200 ease-in hover:opacity-100 hover:shadow-lg hover:shadow-violet-500">
-        {image.prompt}
-      </p>
-    </div>
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onClick={() => setImageModalOpen(true)}
+      >
+        <Image
+          className={`${
+            hovered ? "opacity-60" : "opacity-100"
+          } h-84 w-84 shadow-xl shadow-slate-500 transition-opacity duration-200 ease-in hover:shadow-violet-700`}
+          src={image.url}
+          alt="Image"
+          width={512}
+          height={512}
+          key={image.id}
+          quality={100}
+        />
+        <p
+          className={`${
+            hovered ? "opacity-60" : "opacity-0"
+          } absolute inset-0 flex justify-start overflow-auto bg-slate-50 p-4 font-serif font-medium opacity-0 shadow-xl shadow-slate-700 transition-opacity duration-200 ease-in hover:opacity-100 hover:shadow-lg hover:shadow-violet-500`}
+        >
+          {image.prompt}
+        </p>
+      </div>
+      <Transition appear show={imageModalOpen} as={Fragment}>
+        <Dialog
+          as="div"
+          className="relative z-10"
+          onClose={() => setImageModalOpen(false)}
+        >
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-80" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-3xl">
+                  <div className="bg-slate-200 p-4">
+                    <Image
+                      width={1024}
+                      height={1024}
+                      className="h-full w-full"
+                      src={image.url}
+                      alt="Generated image"
+                      quality={100}
+                    />
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
+    </>
   )
 }
 
