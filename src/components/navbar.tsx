@@ -60,7 +60,6 @@ const Navbar: React.FC = () => {
             alt="credits"
             width={24}
             height={24}
-            placeholder="blur"
           />
         </div>
         <Link

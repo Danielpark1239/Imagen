@@ -105,7 +105,6 @@ const ImageView = (image: Image) => {
           alt="Generated image"
           quality={100}
           placeholder="blur"
-          blurDataURL="data:..."
           onClick={() => setImageModalOpen(true)}
         />
         <div className="flex w-full flex-col items-start md:px-2 ml:px-8">

@@ -229,7 +229,6 @@ const CreateImageWizard = () => {
                 alt="credits"
                 width={22}
                 height={22}
-                placeholder="blur"
               />
             </div>
           ) : (
@@ -251,7 +250,6 @@ const CreateImageWizard = () => {
                 alt="Generated image"
                 quality={100}
                 placeholder="blur"
-                blurDataURL="data:..."
                 onClick={() => setImageModalOpen(true)}
               />
               <div className="flex w-full flex-col items-start md:px-2 ml:px-8">
