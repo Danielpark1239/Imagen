@@ -177,8 +177,8 @@ const CreateImageWizard = () => {
             multiple human subjects, as they may lead to distortions.
           </li>
           <li>
-            Note: Some prompts cause an error by taking over 10 seconds to generate, which leads to an 
-            api timeout. If this happens, try again with a different prompt while we work on a fix.
+            Note: Some long/complex prompts cause an error by taking over 10 seconds to generate, leading to an 
+            API timeout. If this happens, please try again with a different prompt while we work on a fix.
           </li>
         </ul>
       </div>
