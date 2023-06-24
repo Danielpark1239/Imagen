@@ -176,6 +176,10 @@ const CreateImageWizard = () => {
             Try to avoid overly complicated/specific prompts and images with
             multiple human subjects, as they may lead to distortions.
           </li>
+          <li>
+            Note: Some prompts cause an error by taking over 10 seconds to generate, which leads to an 
+            api timeout. If this happens, try again with a different prompt while we work on a fix.
+          </li>
         </ul>
       </div>
       <div className="flex flex-col gap-2">
