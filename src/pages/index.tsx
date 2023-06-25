@@ -3,7 +3,6 @@ import { Fragment, useState } from "react"
 import Head from "next/head"
 import Image from "next/image"
 import Link from "next/link"
-import { Dialog, Transition } from "@headlessui/react"
 import Navbar from "../components/navbar"
 import Footer from "../components/footer"
 import { api } from "~/utils/api"
@@ -16,7 +15,6 @@ type HomeImageDisplayProps = {
 }
 
 const HomeImageDisplay = ({ image }: HomeImageDisplayProps) => {
-  const [imageModalOpen, setImageModalOpen] = useState(false)
   const [hovered, setHovered] = useState(false)
   const handleMouseEnter = () => {
     setHovered(true)
@@ -27,7 +25,7 @@ const HomeImageDisplay = ({ image }: HomeImageDisplayProps) => {
 
   return (
     <div
-      className="relative col-span-1 hover:cursor-pointer"
+      className="relative col-span-1"
       key={image.id}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
