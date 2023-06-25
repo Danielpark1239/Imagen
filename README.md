@@ -7,7 +7,8 @@ It's currently hosted at [ima-gen.vercel.app](https://ima-gen.vercel.app), and i
 This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
 
 
-# To run (assuming you have the env vars):
+# Want to run it yourself?
+(assuming you have the env vars)
 ```
 yarn
 yarn run dev
