@@ -46,7 +46,6 @@ const Home: NextPage = () => {
                 alt="10 credits"
                 width={128}
                 height={128}
-                placeholder="blur"
               />
               <h1 className="text-2xl font-semibold">10 Credits</h1>
               {checkout10Loading && <LoadingSpinner size={28} />}
@@ -73,7 +72,6 @@ const Home: NextPage = () => {
                 alt="50 credits"
                 width={128}
                 height={128}
-                placeholder="blur"
               />
               <h1 className="text-2xl font-semibold">50 Credits</h1>
               {checkout50Loading && <LoadingSpinner size={28} />}
@@ -100,7 +98,6 @@ const Home: NextPage = () => {
                 alt="100 credits"
                 width={128}
                 height={128}
-                placeholder="blur"
               />
               <h1 className="text-2xl font-semibold">100 Credits</h1>
               {checkout100Loading && <LoadingSpinner size={28} />}
