@@ -45,7 +45,7 @@ const HomeImageDisplay = ({ image }: HomeImageDisplayProps) => {
       >
         <button
           onClick={() => setImageModalOpen(true)}
-          className="flex h-8 w-24 items-center justify-center rounded-lg border-b-3 border-violet-900 bg-violet-600
+          className="flex h-8 w-28 items-center justify-center rounded-lg border-b-3 border-violet-900 bg-violet-600
           px-2 py-1 align-middle text-white duration-300 ease-in hover:scale-105 hover:border-violet-800 hover:bg-violet-600"
         >
           Full Screen
