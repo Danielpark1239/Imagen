@@ -8,12 +8,12 @@ export const stripeUserRouter = createTRPCRouter({
         clerkID: ctx.userId
       },
     })
-    // If user doesn't exist, create one with 1 credit
+    // If user doesn't exist, create one with 3 credits
     if (!user) {
       await ctx.prisma.stripeUser.create({
         data: {
           clerkID: ctx.userId,
-          credits: 1
+          credits: 3
         }
       })
       return 1
